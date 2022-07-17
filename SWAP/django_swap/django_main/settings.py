@@ -85,11 +85,10 @@ DATABASES = {
         'NAME': 'my_application',
         'USER': 'root',
         'PASSWORD': 'password',
-        'HOST': '',
+        'HOST': 'db',
         'PORT': '3306',
         'OPTIONS': {
-        #     'read_default_file': '/opt/homebrew/etc/my.cnf',
-        'sql_mode': 'traditional',
+            'sql_mode': 'traditional',
         }
     }
 }
