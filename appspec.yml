@@ -14,7 +14,7 @@ permissions:
 hooks:
    BeforeInstall:
     - location: Deployment/dockercomposedown.sh
-      runas: root
+      runas: ec2-user
    AfterInstall:
     - location: Deployment/dockercomposeup.sh
-      runas: root
+      runas: ec2-user
