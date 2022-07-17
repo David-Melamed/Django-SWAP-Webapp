@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-docker-compose -f ~/SWAP-CodeDeploy/SWAP/django_swap/docker-compose.yml down
+cd ~/SWAP-CodeDeploy/SWAP/django_swap/
+sudo docker-compose -f ~/SWAP-CodeDeploy/SWAP/django_swap/docker-compose.yml down
