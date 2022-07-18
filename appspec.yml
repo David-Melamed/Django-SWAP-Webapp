@@ -1,16 +1,17 @@
 version: 0.0
 os: linux
 files:
-   - source: /SWAP
-     destination: ~/SWAP-CodeDeploy
+   - source: /
+     destination: /SWAP-APP/
 permissions:
    - object: ~/SWAP-CodeDeploy
      pattern: "**"
      owner: ec2-user
 #     group: apache
      mode: 755
-#     type:
-#       - file
+     type:
+       - file
+       - directory
 hooks:
    BeforeInstall:
     - location: Deployment/dockercomposedown.sh
