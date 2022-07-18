@@ -8,18 +8,18 @@ permissions:
      pattern: "**"
      owner: root
      group: root
-     mode: 755
+     mode: 777
      type:
        - file
        - directory
 hooks:
    BeforeInstall:
     - location: Deployment/before_install.sh
-      runas: ec2-user
+      runas: root
       timeout: 300
    AfterInstall:
     - location: Deployment/after_install.sh
-      runas: ec2-user
+      runas: root
       timeout: 300
    ApplicationStart:
     - location: Deployment/application_start.sh
