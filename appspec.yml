@@ -14,8 +14,18 @@ permissions:
        - directory
 hooks:
    BeforeInstall:
-    - location: Deployment/dockercomposedown.sh
+    - location: Deployment/before_install.sh
       runas: ec2-user
+      timeout: 300
    AfterInstall:
-    - location: Deployment/dockercomposeup.sh
+    - location: Deployment/after_install.sh
       runas: ec2-user
+      timeout: 300
+    ApplicationStart:
+    - location: Deployment/application_start.sh
+      runas: ec2-user
+      timeout: 300
+    ValidateService:
+      - location: Deployment/validate_service.sh
+        runas: ec2-user
+        timeout: 300
