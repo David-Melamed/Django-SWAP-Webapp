@@ -4,7 +4,7 @@ files:
    - source: /
      destination: /SWAP-APP/
 permissions:
-   - object: ~/SWAP-CodeDeploy
+   - object: /SWAP-APP/
      pattern: "**"
      owner: ec2-user
 #     group: apache
