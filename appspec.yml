@@ -7,7 +7,7 @@ permissions:
    - object: /var/code/
      pattern: "**"
      owner: root
-#     group: apache
+     group: root
      mode: 755
      type:
        - file
