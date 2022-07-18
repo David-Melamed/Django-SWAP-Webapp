@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
    - source: .
-     destination: /var/code/
+     destination: /var/code/SWAP-Web
 permissions:
    - object: /var/code/
      pattern: "**"
@@ -13,6 +13,10 @@ permissions:
        - file
        - directory
 hooks:
+#   ApplicationStop:
+#    - location: Deployment/stop_application.sh
+#      runas: root
+#      timeout: 300
    BeforeInstall:
     - location: Deployment/before_install.sh
       runas: root
