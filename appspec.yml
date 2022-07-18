@@ -21,11 +21,11 @@ hooks:
     - location: Deployment/after_install.sh
       runas: ec2-user
       timeout: 300
-    ApplicationStart:
+   ApplicationStart:
     - location: Deployment/application_start.sh
       runas: ec2-user
-      timeout: 300
-    ValidateService:
+      timeout: 500
+   ValidateService:
     - location: Deployment/validate_service.sh
       runas: ec2-user
       timeout: 300
