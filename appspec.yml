@@ -26,6 +26,6 @@ hooks:
       runas: ec2-user
       timeout: 300
     ValidateService:
-      - location: Deployment/validate_service.sh
-        runas: ec2-user
-        timeout: 300
+    - location: Deployment/validate_service.sh
+      runas: ec2-user
+      timeout: 300
