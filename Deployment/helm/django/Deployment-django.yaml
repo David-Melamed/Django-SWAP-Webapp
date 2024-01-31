@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      containers:
+      - name: django
+        image: public.ecr.aws/a9k6f9j6/django_swap:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            python manage.py makemigrations
+            sleep 10
+            python manage.py migrate
+            sleep 10
+            python manage.py runserver 0.0.0.0:8080
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MYSQL_HOST
+          value: localhost
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-root-password
+              key: password
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mysql-database
+              key: database
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-service
+spec:
+  selector:
+    app: django
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: NodePort
