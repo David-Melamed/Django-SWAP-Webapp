@@ -5,7 +5,7 @@
 replicaCount: 1
 
 # Django Application Configuration
-djangoApp:
+django:
   image:
     repository: public.ecr.aws/a9k6f9j6/django_swap  # Django app image repository
     pullPolicy: IfNotPresent
