@@ -7,8 +7,8 @@ replicaCount: 1
 # MySQL Database Configuration
 mysql:
   image:
-    repository: mysql
-    tag: "5.7"
+    repository: public.ecr.aws/a9k6f9j6/mysql
+    tag: latest
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
