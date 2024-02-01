@@ -8,7 +8,12 @@ spec:
   source:
     repoURL: 'https://github.com/David-Melamed/SWAP-Web.git'  # URL of the Git repo containing your Kubernetes manifests
     path: Deployment/helm/argocd/django/       # Path within the Git repo to the directory containing your Kubernetes manifests
-    targetRevision: K8S_DEPLOYMENT     # Git branch, tag, or commit to sync to (default is HEAD)
+    targetRevision: HEAD     # Git branch, tag, or commit to sync to (default is HEAD)
+    # For Helm charts, you can specify helm specific parameters here
+    # helm:
+    #   parameters:
+    #     - name: paramName
+    #       value: paramValue
   destination:
     server: 'https://kubernetes.default.svc'  # URL of your Kubernetes API server; use in-cluster address for the same cluster as Argo CD
     namespace: app-client              # Kubernetes namespace to deploy the application to
