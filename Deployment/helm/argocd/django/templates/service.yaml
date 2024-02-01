@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "argocd.fullname" . }}
+  name: {{ include "django.fullname" . }}
   labels:
-    {{- include "argocd.labels" . | nindent 4 }}
+    {{- include "django.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "argocd.selectorLabels" . | nindent 4 }}
+    {{- include "django.selectorLabels" . | nindent 4 }}
