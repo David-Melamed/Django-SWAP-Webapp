@@ -53,7 +53,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80  # Ensure this port is correct for your service's needs
+  port: 3306  # Ensure this port is correct for your service's needs
 
 ingress:
   enabled: false
