@@ -22,20 +22,20 @@ mysql:
     - name: MYSQL_DATABASE
       valueFrom:
         secretKeyRef:
-          key: db_name
+          key: db_name 
           name: mysql-secret
     - name: MYSQL_USER
       valueFrom:
         secretKeyRef:
-          name: mysql-secret
           key: username
+          name: mysql-secret
     - name: MYSQL_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: mysql-secret
           key: password
+          name: mysql-secret
   resources: {}
-  # Add resource limits and requests here
+
 
 imagePullSecrets: []
 nameOverride: ""
@@ -53,7 +53,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 80  # Ensure this port is correct for your service's needs
 
 ingress:
   enabled: false
