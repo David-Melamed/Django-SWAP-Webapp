@@ -34,17 +34,19 @@ spec:
           image: "{{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.mysql.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
+            - name: mysql
+              containerPort: 3306  # Correct port for MySQL
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: mysql  # Using the named port defined above
+            initialDelaySeconds: 30  # Adjust based on your needs
+            periodSeconds: 10
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: mysql  # Using the named port defined above
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
