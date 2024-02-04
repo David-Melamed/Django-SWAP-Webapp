@@ -1,4 +1,4 @@
-# Default values for django app and MySQL database.
+# Default values for Django app and MySQL database.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -33,11 +33,18 @@ mysql:
       valueFrom:
         secretKeyRef:
           name: mysql-secret
-          key: password   
-  resources: {}
+          key: password
 
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
 
 imagePullSecrets: []
+podAnnotations: {}
 nameOverride: ""
 fullnameOverride: ""
 
@@ -46,14 +53,12 @@ serviceAccount:
   annotations: {}
   name: ""
 
-podAnnotations: {}
-
 podSecurityContext: {}
 securityContext: {}
 
 service:
   type: ClusterIP
-  port: 3306  # Ensure this port is correct for your service's needs
+  port: 3306
 
 ingress:
   enabled: false
@@ -72,6 +77,7 @@ autoscaling:
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
 
+# Ensure these are defined, even if empty, to avoid template rendering errors
 nodeSelector: {}
 tolerations: []
 affinity: {}

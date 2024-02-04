@@ -1,21 +1,43 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: mysql          # Name of the Argo CD application
-  namespace: argocd          # Namespace where Argo CD is installed
+  name: {{ include "mysql.fullname" . | default "mysql" }}
+  labels:
+    app: {{ include "mysql.name" . | default "mysql" }}
 spec:
-  project: default           # The Argo CD project to associate with (defaults to 'default')
-  source:
-    repoURL: 'https://github.com/David-Melamed/SWAP-Web.git'  # URL of the Git repo containing your Kubernetes manifests
-    path: Deployment/helm/argocd/mysql/       # Path within the Git repo to the directory containing your Kubernetes manifests
-    targetRevision: HEAD     # Git branch, tag, or commit to sync to (default is HEAD)
-  destination:
-    server: 'https://kubernetes.default.svc'  # URL of your Kubernetes API server; use in-cluster address for the same cluster as Argo CD
-    namespace: db-mysql              # Kubernetes namespace to deploy the application to
-  syncPolicy:
-    automated:  # Uncomment to enable automatic sync
-      prune: false  # Set to true if you want to prune resources not defined in Git
-      selfHeal: false  # Set to true to enable self-healing
-    syncOptions:
-      - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "mysql.name" . | default "mysql" }}
+  template:
+    metadata:
+      annotations:
+        {{- toYaml .Values.podAnnotations | nindent 8 }}
+      labels:
+        app: {{ include "mysql.name" . | default "mysql" }}
+    spec:
+      imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
+      serviceAccountName: {{ .Values.serviceAccount.name | default "default" }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: mysql
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}"
+          imagePullPolicy: {{ .Values.mysql.image.pullPolicy }}
+          ports:
+            - name: mysql
+              containerPort: {{ .Values.mysql.service.port }}
+              protocol: TCP
+          env:
+            {{- toYaml .Values.mysql.env | nindent 12 }}
+          resources:
+            {{- toYaml .Values.mysql.resources | nindent 12 }}
+      nodeSelector:
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
+      affinity:
+        {{- toYaml .Values.affinity | nindent 8 }}
+      tolerations:
+        {{- toYaml .Values.tolerations | nindent 8 }}
