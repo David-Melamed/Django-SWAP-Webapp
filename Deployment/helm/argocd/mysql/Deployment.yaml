@@ -9,8 +9,6 @@ spec:
     repoURL: 'https://github.com/David-Melamed/SWAP-Web.git'  # URL of the Git repo containing your Kubernetes manifests
     path: Deployment/helm/argocd/mysql/       # Path within the Git repo to the directory containing your Kubernetes manifests
     targetRevision: HEAD     # Git branch, tag, or commit to sync to (default is HEAD)
-    helm:
-      valuesFile: values.yaml  # Ensure this is correctly pointing to your values.yaml
   destination:
     server: 'https://kubernetes.default.svc'  # URL of your Kubernetes API server; use in-cluster address for the same cluster as Argo CD
     namespace: db-mysql              # Kubernetes namespace to deploy the application to
