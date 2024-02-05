@@ -24,11 +24,11 @@ mysql:
         secretKeyRef:
           name: mysql-secret
           key: db_name
-    - name: MYSQL_USER
-      valueFrom:
-        secretKeyRef:
-          name: mysql-secret
-          key: username
+    # - name: MYSQL_USER
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: mysql-secret
+    #       key: username
     - name: MYSQL_PASSWORD
       valueFrom:
         secretKeyRef:
