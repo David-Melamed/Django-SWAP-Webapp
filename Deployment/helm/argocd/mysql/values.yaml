@@ -7,7 +7,7 @@ replicaCount: 1
 # MySQL Database Configuration
 mysql:
   image:
-    repository: public.ecr.aws/a9k6f9j6/mysql
+    repository: mysql
     tag: latest
     pullPolicy: IfNotPresent
   service:
