@@ -1,0 +1,28 @@
+# ArgoCD admin user password:
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+
+#Changing Secret password
+kubectl create secret generic mysql-secret \
+  --from-literal=root_password='password' \
+  --from-literal=password='password' \
+  --from-literal=username='root' \
+  --from-literal=db_name='my_application' \
+  -n db
+
+
+###
+kubectl create secret generic mysql-secret \
+  --from-literal=root_password='password' \
+  --from-literal=db_name='my_application' \
+  --from-literal=username='root' \
+  --from-literal=password='password' \
+  -n default --dry-run=client -o yaml | kubectl apply -f -
+
+##
+helm install db-deployment ./mysql -n db -f ./mysql/values.yaml
+helm upgrade --install db-deployment ./mysql -f ./mysql/values.yaml -n db
+helm template db-deployment ./mysql -n db -f ./mysql/values.yaml
+
+
+##argocd sync apply
+argocd app sync mysql

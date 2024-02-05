@@ -5,7 +5,7 @@
 replicaCount: 1
 
 # Django Application Configuration
-djangoApp:
+django:
   image:
     repository: public.ecr.aws/a9k6f9j6/django_swap  # Django app image repository
     pullPolicy: IfNotPresent
@@ -30,33 +30,6 @@ djangoApp:
         secretKeyRef:
           name: django-secret
           key: secret_key
-  resources: {}
-  # Add resource limits and requests here
-
-# MySQL Database Configuration
-mysql:
-  image:
-    repository: mysql
-    tag: "5.7"
-    pullPolicy: IfNotPresent
-  service:
-    type: ClusterIP
-    port: 3306
-  env:
-    - name: MYSQL_ROOT_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: mysql-secret
-          key: root_password
-    - name: MYSQL_DATABASE
-      value: my_application
-    - name: MYSQL_USER
-      value: root
-    - name: MYSQL_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: mysql-secret
-          key: password
   resources: {}
   # Add resource limits and requests here
 
