@@ -39,13 +39,20 @@ spec:
               protocol: TCP
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: {{ .Values.mysql.rootPassword }}
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: root_password
             - name: MYSQL_DATABASE
-              value: {{ .Values.mysql.database }}
-            - name: MYSQL_USER
-              value: {{ .Values.mysql.username }}
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: db_name
             - name: MYSQL_PASSWORD
-              value: {{ .Values.mysql.password }}
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
           livenessProbe:
             httpGet:
               path: /
