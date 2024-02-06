@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "django.fullname" . }}
+  name: {{ .Release.Name }}-django
   labels:
     {{- include "django.labels" . | nindent 4 }}
 spec:
@@ -31,20 +31,22 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.django.image.repository }}:{{ .Values.django.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.django.image.repository }}:{{ .Values.django.image.tag }}"
           imagePullPolicy: {{ .Values.django.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
+            - name: django
+              containerPort: {{ .Values.django.service.port }}
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: django
+            initialDelaySeconds: 30
+            periodSeconds: 10
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: django
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

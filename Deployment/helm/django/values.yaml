@@ -13,23 +13,6 @@ django:
   service:
     type: ClusterIP
     port: 8080
-  env:
-    - name: MYSQL_HOST
-      value: mysql
-    - name: MYSQL_USER
-      value: django
-    - name: MYSQL_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: mysql-secret
-          key: password
-    - name: MYSQL_DATABASE
-      value: my_application
-    - name: SECRET_KEY
-      valueFrom:
-        secretKeyRef:
-          name: django-secret
-          key: secret_key
   resources: {}
   # Add resource limits and requests here
 
