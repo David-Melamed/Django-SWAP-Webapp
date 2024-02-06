@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: django-app         # Name of the Argo CD application
+  namespace: argocd          # Namespace where Argo CD is installed
+spec:
+  project: default           # The Argo CD project to associate with (defaults to 'default')
+  source:
+    repoURL: 'https://github.com/David-Melamed/SWAP-Web.git'  # URL of the Git repo containing your Kubernetes manifests
+    path: Deployment/helm/django/       # Path within the Git repo to the directory containing your Kubernetes manifests
+    targetRevision: HEAD     # Git branch, tag, or commit to sync to (default is HEAD)
+  destination:
+    server: 'https://kubernetes.default.svc'  # URL of your Kubernetes API server; use in-cluster address for the same cluster as Argo CD
+    namespace: client              # Kubernetes namespace to deploy the application to
+  syncPolicy:
+    automated:  # Uncomment to enable automatic sync
+      prune: false  # Set to true if you want to prune resources not defined in Git
+      selfHeal: false  # Set to true to enable self-healing
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
