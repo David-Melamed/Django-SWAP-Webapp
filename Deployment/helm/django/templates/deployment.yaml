@@ -35,7 +35,9 @@ spec:
           imagePullPolicy: {{ .Values.django.image.pullPolicy }}
           command: ["/bin/sh", "-c"]
           args:
-          - >
+            - /bin/bash
+            - -c
+            - |
             sleep 25
             python manage.py makemigrations
             sleep 10
