@@ -36,11 +36,11 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - >
-              sleep 25 &&
+              sleep 5 &&
               python manage.py makemigrations &&
-              sleep 10 &&
+              sleep 5 &&
               python manage.py migrate &&
-              sleep 10 &&
+              sleep 5 &&
               python manage.py runserver 0.0.0.0:8080
           ports:
             - name: django
