@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-mysql-to-django
-  namespace: development
 spec:
   podSelector:
     matchLabels:
@@ -13,4 +12,7 @@ spec:
   - from:
     - podSelector:
         matchLabels:
-          app: db-mysql
+          app: mysql
+    ports:
+    - protocol: TCP
+      port: 3306
