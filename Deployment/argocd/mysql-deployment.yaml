@@ -11,7 +11,7 @@ spec:
     targetRevision: HEAD     # Git branch, tag, or commit to sync to (default is HEAD)
   destination:
     server: 'https://kubernetes.default.svc'  # URL of your Kubernetes API server; use in-cluster address for the same cluster as Argo CD
-    namespace: db-mysql              # Kubernetes namespace to deploy the application to
+    namespace: development              # Kubernetes namespace to deploy the application to
   syncPolicy:
     automated:  # Uncomment to enable automatic sync
       prune: false  # Set to true if you want to prune resources not defined in Git
