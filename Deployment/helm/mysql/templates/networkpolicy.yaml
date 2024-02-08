@@ -13,6 +13,9 @@ spec:
     - podSelector:
         matchLabels:
           app: django
+  namespaceSelector:
+    matchLabels:
+      name: development
     ports:
     - protocol: TCP
       port: 3306

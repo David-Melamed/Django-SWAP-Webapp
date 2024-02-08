@@ -13,6 +13,9 @@ spec:
     - podSelector:
         matchLabels:
           app: mysql
-    ports:
-    - protocol: TCP
-      port: 3306
+  namespaceSelector:
+    matchLabels:
+      name: development
+  ports:
+  - protocol: TCP
+    port: 3306
