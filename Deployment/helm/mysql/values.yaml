@@ -35,8 +35,8 @@ mysql:
           name: mysql-secret
           key: username
   selectorLabels:
-    app: django
-    tier: frontend
+    app: mysql
+    tier: database
     
   resources:
     requests:
