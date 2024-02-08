@@ -49,20 +49,20 @@ spec:
           livenessProbe:
             tcpSocket:
               port: django
-            initialDelaySeconds: 600
-            periodSeconds: 20
-            failureThreshold: 10      # Allows more failures
+            initialDelaySeconds: 36000  
+            periodSeconds: 86400 
+            failureThreshold: 3    
           readinessProbe:
             tcpSocket:
               port: django
-            initialDelaySeconds: 600
-            periodSeconds: 20
-            failureThreshold: 10
+            initialDelaySeconds: 36000 
+            periodSeconds: 86400
+            failureThreshold: 3
           startupProbe:
             tcpSocket:
               port: django
             initialDelaySeconds: 30
-            periodSeconds: 10
+            periodSeconds: 86400
             failureThreshold: 10
 
           resources:
