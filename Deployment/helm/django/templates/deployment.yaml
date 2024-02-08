@@ -10,8 +10,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: django
-      tier: frontend
+      {{- include "django.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
