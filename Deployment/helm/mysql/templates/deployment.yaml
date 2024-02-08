@@ -10,7 +10,8 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "mysql.selectorLabels" . | nindent 6 }}
+      app: mysql
+      tier: database
   template:
     metadata:
       {{- with .Values.podAnnotations }}
