@@ -42,6 +42,8 @@ mysql:
     limits:
       memory: "128Mi"
       cpu: "500m"
+  args:
+    - "--bind-address=0.0.0.0"
 
 imagePullSecrets: []
 podAnnotations: {}
