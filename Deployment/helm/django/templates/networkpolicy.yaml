@@ -1,18 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-django-to-mysql
+  name: allow-all-ingress-django
 spec:
-  podSelector:
-    matchLabels:
-      app: django-app
+  podSelector: {}
+  ingress:
+  - {}
   policyTypes:
   - Ingress
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app: mysql-app
-    ports:
-    - protocol: TCP
-      port: 3306
