@@ -1,15 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "django.fullname" . }}
+  name: django
   labels:
-    {{- include "django.labels" . | nindent 4 }}
+    app: django
 spec:
-  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+    - port: 80
   selector:
-    {{- include "django.selectorLabels" . | nindent 4 }}
+    app: django
+    tier: frontend
+  type: LoadBalancer
