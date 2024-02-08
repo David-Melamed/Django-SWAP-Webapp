@@ -6,7 +6,7 @@ metadata:
     app: mysql
 spec:
   type: ExternalName
-  externalName: mysql-service.default.svc.cluster.local
+  externalName: mysql-service.development.svc.cluster.local
   ports:
     - name: mysql
       port: 3306
