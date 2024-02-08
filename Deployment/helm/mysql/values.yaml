@@ -29,7 +29,12 @@ mysql:
         secretKeyRef:
           name: mysql-secret
           key: password
-
+    - name: MYSQL_USER
+      valueFrom:
+        secretKeyRef:
+          name: mysql-secret
+          key: username
+    
   resources:
     requests:
       memory: "64Mi"
