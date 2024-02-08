@@ -10,8 +10,8 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-    app: django
-    tier: frontend
+      app: django
+      tier: frontend
   template:
     metadata:
       {{- with .Values.podAnnotations }}
