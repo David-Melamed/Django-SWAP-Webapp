@@ -14,6 +14,10 @@ django:
     type: ClusterIP
     port: 8080
   resources: {}
+  selectorLabels:
+    app: django
+    tier: frontend
+
   # Add resource limits and requests here
 
 imagePullSecrets: []
