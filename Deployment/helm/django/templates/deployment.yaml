@@ -46,16 +46,25 @@ spec:
             - name: django
               containerPort: {{ .Values.django.service.port }}
               protocol: TCP
-          # livenessProbe:
-          #   tcpSocket:
-          #     port: django
-          #   initialDelaySeconds: 30
-          #   periodSeconds: 10
-          # readinessProbe:
-          #   tcpSocket:
-          #     port: django
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: django
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 10      # Allows more failures
+          readinessProbe:
+            tcpSocket:
+              port: django
+            initialDelaySeconds: 60 
+            periodSeconds: 20
+            failureThreshold: 10
+          startupProbe:
+            tcpSocket:
+              port: django
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 10
+
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
