@@ -39,9 +39,7 @@ spec:
               sleep 5 &&
               python manage.py makemigrations &&
               sleep 5 &&
-              python manage.py migrate &&
-              # sleep 5 &&
-              # python manage.py runserver 0.0.0.0:8080
+              python manage.py migrate
           ports:
             - name: django
               containerPort: {{ .Values.django.service.port }}
