@@ -49,13 +49,13 @@ spec:
           livenessProbe:
             tcpSocket:
               port: django
-            initialDelaySeconds: 60
+            initialDelaySeconds: 600
             periodSeconds: 20
             failureThreshold: 10      # Allows more failures
           readinessProbe:
             tcpSocket:
               port: django
-            initialDelaySeconds: 60 
+            initialDelaySeconds: 600
             periodSeconds: 20
             failureThreshold: 10
           startupProbe:
