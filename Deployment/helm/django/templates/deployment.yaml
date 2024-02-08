@@ -33,13 +33,15 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.django.image.repository }}:{{ .Values.django.image.tag }}"
           imagePullPolicy: {{ .Values.django.image.pullPolicy }}
-          command: ["/bin/sh", "-c"]
-          args:
-            - >
-              sleep 5 &&
-              python manage.py makemigrations &&
-              sleep 5 &&
-              python manage.py migrate
+          # command: ["/bin/sh", "-c"]
+          # args:
+          #   - >
+          #     sleep 5 &&
+          #     python manage.py makemigrations &&
+          #     sleep 5 &&
+          #     python manage.py migrate &&
+          #     sleep 5 &&
+          #     python manage.py runserver 0.0.0.0:8080
           ports:
             - name: django
               containerPort: {{ .Values.django.service.port }}
