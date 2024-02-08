@@ -33,6 +33,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.django.image.repository }}:{{ .Values.django.image.tag }}"
           imagePullPolicy: {{ .Values.django.image.pullPolicy }}
+          command: ["sleep"]
+          args: ["3600"]  # Sleep for an hour
+
           # command: ["/bin/sh", "-c"]
           # args:
           #   - >
