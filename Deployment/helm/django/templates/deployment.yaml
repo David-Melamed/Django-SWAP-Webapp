@@ -3,14 +3,16 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-django
   labels:
-    {{- include "django.selectorLabels" . | nindent 4 }}
+    app: django
+    tier: frontend
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "django.selectorLabels" . | nindent 6 }}
+      app: django
+      tier: frontend
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +20,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "django.selectorLabels" . | nindent 8 }}
+        app: django
+        tier: frontend
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
