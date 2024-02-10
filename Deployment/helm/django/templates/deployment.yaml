@@ -36,15 +36,6 @@ spec:
           command: ["sleep"]
           args: ["3600"]  # Sleep for an hour
 
-          # command: ["/bin/sh", "-c"]
-          # args:
-          #   - >
-          #     sleep 5 &&
-          #     python manage.py makemigrations &&
-          #     sleep 5 &&
-          #     python manage.py migrate &&
-          #     sleep 5 &&
-          #     python manage.py runserver 0.0.0.0:8080
           ports:
             - name: django
               containerPort: {{ .Values.django.service.port }}
