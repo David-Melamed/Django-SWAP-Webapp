@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mysql-app         # Name of the Argo CD application
+  name: mysql-db         # Name of the Argo CD application
   namespace: argocd          # Namespace where Argo CD is installed
 spec:
   project: default           # The Argo CD project to associate with (defaults to 'default')

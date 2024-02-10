@@ -35,7 +35,7 @@ mysql:
           name: mysql-secret
           key: username
   selectorLabels:
-    app: mysql
+    app: mysql-db
     tier: database
     
   resources:
