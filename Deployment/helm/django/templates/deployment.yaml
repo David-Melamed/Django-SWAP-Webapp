@@ -52,21 +52,21 @@ spec:
           livenessProbe:
             tcpSocket:
               port: django
-            initialDelaySeconds: 36000  
-            periodSeconds: 86400 
+            initialDelaySeconds: 30  
+            periodSeconds: 10 
             failureThreshold: 3    
           readinessProbe:
             tcpSocket:
               port: django
-            initialDelaySeconds: 36000 
-            periodSeconds: 86400
+            initialDelaySeconds: 5 
+            periodSeconds: 10
             failureThreshold: 3
           startupProbe:
             tcpSocket:
               port: django
-            initialDelaySeconds: 30
-            periodSeconds: 86400
-            failureThreshold: 10
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
