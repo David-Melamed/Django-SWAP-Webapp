@@ -35,8 +35,8 @@ mysql:
           name: mysql-secret
           key: username
   selectorLabels:
-    app: mysql-db
-    tier: database
+    app.kubernetes.io/instance: mysql-db
+    app.kubernetes.io/name: mysql
     
   resources:
     requests:
