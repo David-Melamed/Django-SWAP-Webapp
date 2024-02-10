@@ -6,7 +6,9 @@ metadata:
     app: django
 spec:
   ports:
-    - port: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
   selector:
     app: django
     tier: frontend
