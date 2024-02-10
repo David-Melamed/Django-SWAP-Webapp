@@ -18,8 +18,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: {{ .Values.mysql.selectorLabels.app }}
-        tier: {{ .Values.mysql.selectorLabels.tier }}
+        app: "{{ .Values.mysql.selectorLabels.app }}"
+        tier: "{{ .Values.mysql.selectorLabels.tier }}"
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
