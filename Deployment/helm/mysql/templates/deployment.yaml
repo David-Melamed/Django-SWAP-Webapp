@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-mysql
   labels:
-    {{- include "mysql.labels" . | nindent 4 }}
+    {{- include "mysql.selectorLabels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}

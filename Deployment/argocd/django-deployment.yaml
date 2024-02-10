@@ -3,6 +3,9 @@ kind: Application
 metadata:
   name: django-app         # Name of the Argo CD application
   namespace: argocd          # Namespace where Argo CD is installed
+  labels:
+    app: django
+    tier: frontend
 spec:
   project: default           # The Argo CD project to associate with (defaults to 'default')
   source:
