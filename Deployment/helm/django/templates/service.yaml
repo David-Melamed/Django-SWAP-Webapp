@@ -13,4 +13,4 @@ spec:
   selector:
     app: django
     tier: frontend
-  type: NodePort
+  type: LoadBalancer
