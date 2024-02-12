@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-mysql
   labels:
-    app: {{ .Values.mysql.labels.app }}
-    tier: {{ .Values.mysql.labels.tier }}
+    app: mysql-db
+    tier: database
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ .Values.mysql.labels.app }}
-      tier: {{ .Values.mysql.labels.tier }}
+      app: mysql-db
+      tier: database
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -20,8 +20,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: {{ .Values.mysql.labels.app }}
-        tier: {{ .Values.mysql.labels.tier }}
+        app: mysql-db
+        tier: database
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -59,17 +59,15 @@ spec:
           livenessProbe:
             tcpSocket:
               port: mysql
-            initialDelaySeconds: {{ .Values.mysql.probes.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.mysql.probes.livenessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.mysql.probes.livenessProbe.failureThreshold }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
           readinessProbe:
             tcpSocket:
               port: mysql
-            initialDelaySeconds: {{ .Values.mysql.probes.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.mysql.probes.readinessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.mysql.probes.readinessProbe.failureThreshold }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resources:
-            {{- toYaml .Values.mysql.resources | nindent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
