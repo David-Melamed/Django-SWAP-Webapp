@@ -26,9 +26,10 @@ jobs:
 
       - name: Login to ECR
         id: login-ecr-public
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
         with:
           registry-type: public
+          mask-password: 'false'
           region: eu-west-1
 
       - name: Set Docker image tag
