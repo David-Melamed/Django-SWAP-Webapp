@@ -21,7 +21,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::884878220922:role/ecr.development.django.github.policy
-          aws-region: us-east-1
+          aws-region: eu-west-1
   
   login:
     needs: configure
