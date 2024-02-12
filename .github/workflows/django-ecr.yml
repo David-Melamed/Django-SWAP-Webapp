@@ -1,0 +1,43 @@
+name: Build and Push Docker Image
+on:
+  workflow_run:
+    workflows: ["Build and Push Django Application to ECR"]
+    types:
+      - completed
+
+permissions:
+  id-token: write
+
+jobs:
+  build_push_docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws/actions/configure-aws-credential@v2
+        with:
+          role-to-assume: arn:aws:iam::884878220922:role/ecr.development.django.github.policy
+          aws-region: eu-west-1
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry-type: public
+
+      - name: Set Docker image tag
+        id: set-tag
+        run: |
+          echo "TAG=v$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build Docker image
+        run: |
+          cd SWAP/django_swap/
+          docker build -t django_swap:${{ env.TAG }} public.ecr.aws/a9k6f9j6/django_swap:${{ env.TAG }} .
+          
+      - name: Push Docker image to ECR
+        run: |
+          docker push public.ecr.aws/a9k6f9j6/django_swap:${{ env.TAG }}
