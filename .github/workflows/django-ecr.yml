@@ -15,13 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::884878220922:role/ecr.development.django.github.policy
-          aws-region: eu-west-1
+          aws-region: us-east-1
   
   login:
     needs: configure
@@ -30,6 +30,8 @@ jobs:
       - name: Login to ECR
         id: login-ecr-public
         uses: aws-actions/amazon-ecr-login@v2
+    with:
+      registry-type: public
 
   build:
     needs: login
