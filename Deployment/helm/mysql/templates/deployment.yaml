@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-mysql
   labels:
-    app: mysql-db
-    tier: database
+    app: {{ .Values.mysql.labels.app }}
+    tier: {{ .Values.mysql.labels.tier }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: mysql-db
-      tier: database
+      app: {{ .Values.mysql.labels.app }}
+      tier: {{ .Values.mysql.labels.tier }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -20,8 +20,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: mysql-db
-        tier: database
+        app: {{ .Values.mysql.labels.app }}
+        tier: {{ .Values.mysql.labels.tier }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -41,33 +41,29 @@ spec:
               containerPort: {{ .Values.mysql.service.port }}
               protocol: TCP
           env:
-            - name: MYSQL_ROOT_PASSWORD
+            {{- range $env := .Values.mysql.env }}
+            {{- with $env.valueFrom.secretKeyRef }}
+            - name: {{ $env.name }}
               valueFrom:
                 secretKeyRef:
-                  name: mysql-secret
-                  key: root_password
-            - name: MYSQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: db_name
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: password
+                  name: {{ .name }}
+                  key: {{ .key }}
+            {{- end }}
+            {{- end }}
           livenessProbe:
             tcpSocket:
               port: mysql
-            initialDelaySeconds: 30
-            periodSeconds: 10
+            initialDelaySeconds: {{ .Values.mysql.probes.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.mysql.probes.livenessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.mysql.probes.livenessProbe.failureThreshold }}
           readinessProbe:
             tcpSocket:
               port: mysql
-            initialDelaySeconds: 5
-            periodSeconds: 10
+            initialDelaySeconds: {{ .Values.mysql.probes.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.mysql.probes.readinessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.mysql.probes.readinessProbe.failureThreshold }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.mysql.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

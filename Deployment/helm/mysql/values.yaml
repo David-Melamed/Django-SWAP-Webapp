@@ -34,9 +34,22 @@ mysql:
         secretKeyRef:
           name: mysql-secret
           key: username
-  selectorLabels:
+  labels:
     app: mysql-db
     tier: database
+  probes:
+    livenessProbe:
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      failureThreshold: 3
+    readinessProbe:
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      failureThreshold: 3
+    startupProbe:
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      failureThreshold: 3
     
   resources:
     requests:
