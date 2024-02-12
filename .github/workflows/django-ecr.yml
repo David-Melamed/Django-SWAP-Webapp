@@ -12,7 +12,8 @@ on:
 
 permissions:
   id-token: write
-
+  contents: write
+  
 jobs:
   configure:
     runs-on: ubuntu-latest
