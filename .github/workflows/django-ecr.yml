@@ -1,7 +1,7 @@
 name: Build and Push Docker Image
 env:
   AWS_REGION : "eu-west-1"
-  
+
 on:
   workflow_run:
     workflows: ["Build and Push Django Application to ECR"]
@@ -35,6 +35,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         with:
           registry-type: public
+          region: eu-west-1
 
   build:
     needs: login
