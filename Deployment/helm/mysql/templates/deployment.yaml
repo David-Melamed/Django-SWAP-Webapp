@@ -43,10 +43,7 @@ spec:
           env:
             {{- range $env := .Values.mysql.env }}
             - name: {{ $env.name }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $env.valueFrom.secretKeyRef.name }}
-                  key: {{ $env.valueFrom.secretKeyRef.key }}
+              value: "{{ $env.valueFrom.secretKeyRef.name }}:{{ $env.valueFrom.secretKeyRef.key }}"
             {{- end }}
           livenessProbe:
             tcpSocket:
