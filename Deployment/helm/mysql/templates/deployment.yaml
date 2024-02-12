@@ -56,6 +56,11 @@ spec:
                 secretKeyRef:
                   name: mysql-secret
                   key: password
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: username
             {{- end }}
           livenessProbe:
             tcpSocket:
