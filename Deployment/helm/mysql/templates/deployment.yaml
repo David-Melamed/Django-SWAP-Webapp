@@ -70,6 +70,18 @@ spec:
             failureThreshold: {{ .Values.mysql.probes.readinessProbe.failureThreshold }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        {{- range .Values.mysql.volumes }}
+        - name: {{ .name }}
+          {{- with .persistentVolumeClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .claimName }}
+          {{- end }}
+          {{- with .configMap }}
+          configMap:
+            name: {{ .name }}
+          {{- end }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
