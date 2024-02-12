@@ -14,10 +14,22 @@ django:
     type: ClusterIP
     port: 8080
   resources: {}
-  selectorLabels:
+  labels:
     app: django
     tier: frontend
-
+  probes:
+    livenessProbe:
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      failureThreshold: 3
+    readinessProbe:
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      failureThreshold: 3
+    startupProbe:
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      failureThreshold: 3
   # Add resource limits and requests here
 
 imagePullSecrets: []
