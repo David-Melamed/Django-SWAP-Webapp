@@ -13,22 +13,6 @@ mysql:
   service:
     type: ClusterIP
     port: 3306
-  env:
-    - name: MYSQL_ROOT_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: mysql-secret
-          key: root_password
-    - name: MYSQL_DATABASE
-      valueFrom:
-        secretKeyRef:
-          name: mysql-secret
-          key: db_name
-    - name: MYSQL_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: mysql-secret
-          key: password
   labels:
     app: mysql-db
     tier: database

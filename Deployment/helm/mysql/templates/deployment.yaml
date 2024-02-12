@@ -41,13 +41,22 @@ spec:
               containerPort: {{ .Values.mysql.service.port }}
               protocol: TCP
           env:
-          {{- range .Values.mysql.env }}
-            - name: {{ .name | quote }}
+            - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .valueFrom.secretKeyRef.name | quote }}
-                  key: {{ .valueFrom.secretKeyRef.key | quote }}
-          {{- end }}
+                  name: mysql-secret
+                  key: root_password
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: db_name
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+            {{- end }}
           livenessProbe:
             tcpSocket:
               port: mysql
