@@ -51,16 +51,16 @@ spec:
               protocol: TCP
           livenessProbe:
             tcpSocket:
-              port: mysql
-            initialDelaySeconds: {{ .Values.mysql.probes.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.mysql.probes.livenessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.mysql.probes.livenessProbe.failureThreshold }}
+              port: django
+            initialDelaySeconds: {{ .Values.django.probes.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.django.probes.livenessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.django.probes.livenessProbe.failureThreshold }}
           readinessProbe:
             tcpSocket:
-              port: mysql
-            initialDelaySeconds: {{ .Values.mysql.probes.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.mysql.probes.readinessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.mysql.probes.readinessProbe.failureThreshold }}
+              port: django
+            initialDelaySeconds: {{ .Values.django.probes.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.django.probes.readinessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.django.probes.readinessProbe.failureThreshold }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
