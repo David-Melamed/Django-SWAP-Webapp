@@ -38,7 +38,7 @@ jobs:
       - name: Build Docker image
         run: |
           cd SWAP/django_swap/
-          docker build -t django_swap:${{ env.TAG }} public.ecr.aws/a9k6f9j6/django_swap:${{ env.TAG }} .
+          docker build -t public.ecr.aws/a9k6f9j6/django_swap:${{ env.TAG }} .
           
       - name: Push Docker image to ECR
         run: |
