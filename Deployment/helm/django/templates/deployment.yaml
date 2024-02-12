@@ -1,17 +1,18 @@
-# Deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-django
   labels:
-    {{- toYaml .Values.django.labels | nindent 4 }}
+    app: django
+    tier: frontend
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- toYaml .Values.django.labels | nindent 6 }}
+      app: django
+      tier: frontend
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,13 +20,14 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- toYaml .Values.django.labels | nindent 8 }}
+        app: django
+        tier: frontend
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ .Values.django.serviceAccountName }}
+      serviceAccountName: {{ include "django.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -42,30 +44,23 @@ spec:
               sleep 5 &&
               python manage.py migrate &&
               sleep 5 &&
-              python manage.py runserver 0.0.0.0:{{ .Values.django.service.port }}
+              python manage.py runserver 0.0.0.0:8080
           ports:
             - name: django
               containerPort: {{ .Values.django.service.port }}
               protocol: TCP
           livenessProbe:
             tcpSocket:
-              port: django
-            initialDelaySeconds: {{ .Values.django.probes.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.django.probes.livenessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.django.probes.livenessProbe.failureThreshold }}
+              port: mysql
+            initialDelaySeconds: {{ .Values.mysql.probes.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.mysql.probes.livenessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.mysql.probes.livenessProbe.failureThreshold }}
           readinessProbe:
             tcpSocket:
-              port: django
-            initialDelaySeconds: {{ .Values.django.probes.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.django.probes.readinessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.django.probes.readinessProbe.failureThreshold }}
-          startupProbe:
-            tcpSocket:
-              port: django
-            initialDelaySeconds: {{ .Values.django.probes.startupProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.django.probes.startupProbe.periodSeconds }}
-            failureThreshold: {{ .Values.django.probes.startupProbe.failureThreshold }}
-      
+              port: mysql
+            initialDelaySeconds: {{ .Values.mysql.probes.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.mysql.probes.readinessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.mysql.probes.readinessProbe.failureThreshold }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -80,3 +75,5 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+
+
