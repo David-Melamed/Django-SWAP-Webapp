@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'SWAP/django_swap/**'  # This line filters changes to files under SWAP/django_swap/
+  
+  workflow_dispatch:
 
 jobs:
   build_test:
