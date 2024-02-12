@@ -42,13 +42,11 @@ spec:
               protocol: TCP
           env:
             {{- range $env := .Values.mysql.env }}
-            {{- with $env.valueFrom.secretKeyRef }}
             - name: {{ $env.name }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .name }}
-                  key: {{ .key }}
-            {{- end }}
+                  name: {{ $env.valueFrom.secretKeyRef.name }}
+                  key: {{ $env.valueFrom.secretKeyRef.key }}
             {{- end }}
           livenessProbe:
             tcpSocket:
