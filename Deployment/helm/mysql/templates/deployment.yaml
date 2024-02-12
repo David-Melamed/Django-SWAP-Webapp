@@ -48,7 +48,6 @@ spec:
                   name: {{ .valueFrom.secretKeyRef.name | quote }}
                   key: {{ .valueFrom.secretKeyRef.key | quote }}
           {{- end }}
-            {{- end }}
           livenessProbe:
             tcpSocket:
               port: mysql
