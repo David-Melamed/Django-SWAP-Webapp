@@ -50,22 +50,22 @@ spec:
           livenessProbe:
             tcpSocket:
               port: django
-            initialDelaySeconds: {{ .Values.probes.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold }}
+            initialDelaySeconds: {{ .Values.django.probes.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.django.probes.livenessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.django.probes.livenessProbe.failureThreshold }}
           readinessProbe:
             tcpSocket:
               port: django
-            initialDelaySeconds: {{ .Values.probes.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.probes.readinessProbe.failureThreshold }}
+            initialDelaySeconds: {{ .Values.django.probes.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.django.probes.readinessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.django.probes.readinessProbe.failureThreshold }}
           startupProbe:
             tcpSocket:
               port: django
-            initialDelaySeconds: {{ .Values.probes.startupProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.probes.startupProbe.periodSeconds }}
-            failureThreshold: {{ .Values.probes.startupProbe.failureThreshold }}
-
+            initialDelaySeconds: {{ .Values.django.probes.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.django.probes.startupProbe.periodSeconds }}
+            failureThreshold: {{ .Values.django.probes.startupProbe.failureThreshold }}
+      
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
