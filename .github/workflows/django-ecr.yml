@@ -25,6 +25,7 @@ jobs:
   
   login:
     needs: configure
+    runs-on: ubuntu-latest
     steps:
       - name: Login to ECR
         id: login-ecr-public
@@ -34,6 +35,7 @@ jobs:
 
   build:
     needs: login
+    runs-on: ubuntu-latest
     steps:
       - name: Set Docker image tag
         id: set-tag
@@ -47,6 +49,7 @@ jobs:
 
   push:
     needs: build
+    runs-on: ubuntu-latest
     steps:
       - name: Push Docker image to ECR
         run: |
