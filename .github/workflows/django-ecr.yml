@@ -30,6 +30,7 @@ jobs:
 
   login:
     needs: configure
+    runs-on: ubuntu-latest
     steps:
       - name: Login to ECR
         id: login-ecr-public
