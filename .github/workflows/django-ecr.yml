@@ -34,7 +34,7 @@ jobs:
           region: us-east-1
 
   build:
-    needs: login
+    needs: configure
     runs-on: ubuntu-latest
     steps:
       - name: Set Docker image tag
