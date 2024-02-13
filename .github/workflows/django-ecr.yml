@@ -1,6 +1,4 @@
 name: Build and Push Docker Image
-env:
-  AWS_REGION : "us-east-1"
 
 on:
   workflow_run:
@@ -28,9 +26,6 @@ jobs:
           aws-region: us-east-1
           audience: sts.amazonaws.com
 
-  login:
-    needs: configure
-    runs-on: ubuntu-latest
     steps:
       - name: Login to ECR
         id: login-ecr-public
@@ -38,9 +33,6 @@ jobs:
         with:
           registry-type: public
           region: us-east-1
-          id-token: ${{ needs.configure.outputs.id-token }}
-          access-key-id: ${{ needs.configure.outputs.access-key-id }}
-          secret-access-key: ${{ needs.configure.outputs.secret-access-key }}
 
   build:
     needs: login
