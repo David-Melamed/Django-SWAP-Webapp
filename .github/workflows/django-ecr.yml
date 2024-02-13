@@ -56,7 +56,7 @@ jobs:
   # push:
   #   needs: build
   #   runs-on: ubuntu-latest
-    steps:
+    # steps:
       - name: Push Docker image to ECR
         run: |
           docker push public.ecr.aws/a9k6f9j6/django_swap:${{ env.TAG }}
