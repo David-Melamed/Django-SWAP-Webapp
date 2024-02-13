@@ -41,7 +41,8 @@ jobs:
         id: set-tag
         run: |
           echo "TAG=$(date +'%d%m%y-%H%M%S')-v$(git rev-parse --short HEAD)"
-
+          echo "::set-output name=TAG::${TAG}"
+          
   build:
     needs: [configure, set-tag]
     runs-on: ubuntu-latest
