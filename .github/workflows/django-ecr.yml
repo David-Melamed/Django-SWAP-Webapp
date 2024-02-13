@@ -1,6 +1,6 @@
 name: Build and Push Docker Image
 env:
-  AWS_REGION : "eu-west-1"
+  AWS_REGION : "us-east-1"
 
 on:
   workflow_run:
