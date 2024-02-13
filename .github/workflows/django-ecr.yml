@@ -26,7 +26,6 @@ jobs:
           aws-region: us-east-1
           audience: sts.amazonaws.com
 
-    steps:
       - name: Login to ECR
         id: login-ecr-public
         uses: aws-actions/amazon-ecr-login@v2
