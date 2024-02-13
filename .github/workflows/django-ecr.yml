@@ -28,21 +28,23 @@ jobs:
           aws-region: us-east-1
           audience: sts.amazonaws.com
 
-  # login:
-  #   needs: configure
-  #   runs-on: ubuntu-latest
-  #   steps:
+  login:
+    needs: configure
+    steps:
       - name: Login to ECR
         id: login-ecr-public
         uses: aws-actions/amazon-ecr-login@v2
         with:
           registry-type: public
           region: us-east-1
+          id-token: ${{ needs.configure.outputs.id-token }}
+          access-key-id: ${{ needs.configure.outputs.access-key-id }}
+          secret-access-key: ${{ needs.configure.outputs.secret-access-key }}
 
-  # build:
-  #   needs: login
-  #   runs-on: ubuntu-latest
-  #   steps:
+  build:
+    needs: login
+    runs-on: ubuntu-latest
+    steps:
       - name: Set Docker image tag
         id: set-tag
         run: |
@@ -53,10 +55,10 @@ jobs:
           cd SWAP/django_swap/
           docker build -t public.ecr.aws/a9k6f9j6/django_swap:${{ env.TAG }} .
 
-  # push:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-    # steps:
+  push:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Push Docker image to ECR
         run: |
           docker push public.ecr.aws/a9k6f9j6/django_swap:${{ env.TAG }}
