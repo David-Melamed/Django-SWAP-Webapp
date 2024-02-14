@@ -1,11 +1,8 @@
-name: Build and Push Docker Image
-env:
-  tag: 
-
+name: Build and Push
 
 on:
   workflow_run:
-    workflows: ["Build and Push Django Application to ECR"]
+    workflows: ["Build and Push Django Image to ECR"]
     types:
       - completed
 
@@ -16,8 +13,9 @@ permissions:
   contents: read
 
 jobs:
-  configure:
+  build_and_push:
     runs-on: ubuntu-latest
+    environment: development
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
