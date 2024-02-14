@@ -32,28 +32,20 @@ jobs:
         with:
           registry-type: public
 
-  set-tag:
-    runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.set-tag.outputs.TAG }}
-    steps:
       - name: Set Docker image tag
         id: set-tag
         run: |
-          echo "TAG=$(date +'%d%m%y-%H%M%S')-v$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-          
-  build_and_push:
-    needs: [configure, set-tag]
-    runs-on: ubuntu-latest
-    steps:
+          echo "TAG=$(date +'%H%M%S-%d%m%y')-v$(git rev-parse --short HEAD)"
+          echo "TAG=${{ steps.set-tag.outputs.TAG }}" >> $GITHUB_ENV
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Build Docker image
         run: |
           cd SWAP/django_swap/
-          docker build -t public.ecr.aws/a9k6f9j6/django_swap:${{ needs.set-tag.outputs.tag }} .
+          docker build -t public.ecr.aws/a9k6f9j6/django_swap:${{ env.TAG }} .
 
       - name: Push Docker image to ECR
         run: |
-          docker push public.ecr.aws/a9k6f9j6/django_swap:${{ needs.set-tag.outputs.tag }}
+          docker push public.ecr.aws/a9k6f9j6/django_swap:${{ env.TAG }}
