@@ -36,7 +36,7 @@ jobs:
       - name: Set Docker image tag
         id: set-tag
         run: |
-          echo "TAG=$(date +'%H%M%S-%d%m%y')-v$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "TAG=$(date +'%H%M%S-%d%m%y')" >> $GITHUB_ENV
 
       - name: Checkout repository
         uses: actions/checkout@v3
