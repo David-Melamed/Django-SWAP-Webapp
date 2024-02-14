@@ -58,6 +58,10 @@ jobs:
     needs: [build, set-tag]
     runs-on: ubuntu-latest
     steps:
+      - name: Check built Docker image
+        run: |
+          docker images
+
       - name: Push Docker image to ECR
         run: |
           docker push public.ecr.aws/a9k6f9j6/django_swap:${{ needs.set-tag.outputs.tag }}
