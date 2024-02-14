@@ -35,13 +35,12 @@ jobs:
   set-tag:
     runs-on: ubuntu-latest
     outputs:
-      TAG: ${{ steps.set-tag.outputs.TAG }}
+      tag: ${{ steps.set-tag.outputs.TAG }}
     steps:
       - name: Set Docker image tag
         id: set-tag
         run: |
-          echo "TAG=$(date +'%d%m%y-%H%M%S')-v$(git rev-parse --short HEAD)"
-          echo "::set-output name=TAG::${TAG}"
+          echo "TAG=$(date +'%d%m%y-%H%M%S')-v$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
           
   build:
     needs: [configure, set-tag]
@@ -53,7 +52,7 @@ jobs:
       - name: Build Docker image
         run: |
           cd SWAP/django_swap/
-          docker build -t public.ecr.aws/a9k6f9j6/django_swap:${{ env.TAG }} .
+          docker build -t public.ecr.aws/a9k6f9j6/django_swap:${{ needs.set-tag.outputs.tag }} .
 
   push:
     needs: [build, set-tag]
@@ -61,4 +60,4 @@ jobs:
     steps:
       - name: Push Docker image to ECR
         run: |
-          docker push public.ecr.aws/a9k6f9j6/django_swap:${{ env.TAG }}
+          docker push public.ecr.aws/a9k6f9j6/django_swap:${{ needs.set-tag.outputs.tag }}
