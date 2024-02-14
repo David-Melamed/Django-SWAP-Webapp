@@ -52,6 +52,7 @@ jobs:
 
       - name: Build Docker image
         run: |
+          TAG="${{ needs.set-tag.outputs.TAG }}"
           cd SWAP/django_swap/
           docker build -t public.ecr.aws/a9k6f9j6/django_swap:${TAG} .
 
@@ -61,4 +62,5 @@ jobs:
     steps:
       - name: Push Docker image to ECR
         run: |
+          TAG="${{ needs.set-tag.outputs.TAG }}"
           docker push public.ecr.aws/a9k6f9j6/django_swap:${TAG}
