@@ -19,8 +19,10 @@ jobs:
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
+        env:
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/ecr.development.django.github.policy
+          role-to-assume: arn:aws:iam::$AWS_ACCOUNT_ID:role/ecr.development.django.github.policy
           aws-region: us-east-1
           audience: sts.amazonaws.com
 
