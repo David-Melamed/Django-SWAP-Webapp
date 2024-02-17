@@ -2,7 +2,7 @@ name: Build and Push
 
 on:
   workflow_run:
-    workflows: ["Build and Push Django Image to ECR"]
+    workflows: ["django-test.yml"]
     types:
       - completed
 
