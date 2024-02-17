@@ -2,7 +2,7 @@ name: Build and Push
 
 on:
   workflow_run:
-    workflows: ["django-test.yml"]
+    workflows: ["Build and Test"]
     types:
       - completed
 
