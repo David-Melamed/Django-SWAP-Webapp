@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     steps:
+       - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Set AWS account ID
         run: echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}" >> $GITHUB_ENV
 
@@ -36,9 +39,6 @@ jobs:
         id: set-tag
         run: |
           echo "TAG=$(date +'%H%M%S-%d%m%y')" >> $GITHUB_ENV
-
-      - name: Checkout repository
-        uses: actions/checkout@v3
 
       - name: Build Docker image
         run: |
