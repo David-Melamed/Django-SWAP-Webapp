@@ -1,0 +1,47 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+      {
+        "name": "django",
+        "image": "your-django-image",
+        "essential": true,
+        "memory": 256,
+        "portMappings": [
+          {
+            "hostPort": 80,
+            "containerPort": 8000
+          }
+        ]
+      },
+      {
+        "name": "mysql",
+        "image": "mysql:latest",
+        "essential": true,
+        "memory": 256,
+        "portMappings": [
+          {
+            "hostPort": 3306,
+            "containerPort": 3306
+          }
+        ],
+        "environment": [
+          {
+            "name": "MYSQL_ROOT_PASSWORD",
+            "value": "your_mysql_root_password"
+          },
+          {
+            "name": "MYSQL_DATABASE",
+            "value": "your_django_db_name"
+          },
+          {
+            "name": "MYSQL_USER",
+            "value": "your_django_db_user"
+          },
+          {
+            "name": "MYSQL_PASSWORD",
+            "value": "your_django_db_password"
+          }
+        ]
+      }
+    ]
+  }  
