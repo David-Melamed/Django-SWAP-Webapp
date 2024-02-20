@@ -7,7 +7,8 @@ kubectl create secret generic mysql-secret \
   --from-literal=password='password' \
   --from-literal=username='root' \
   --from-literal=db_name='my_application' \
-  -n db
+  --from-literal=db_host='mysql-service.development.svc.cluster.local' \
+  -n development
 
 
 ###

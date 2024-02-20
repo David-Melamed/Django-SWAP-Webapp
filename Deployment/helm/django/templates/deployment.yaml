@@ -49,6 +49,12 @@ spec:
             - name: django
               containerPort: {{ .Values.django.service.port }}
               protocol: TCP
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: db_host
           livenessProbe:
             tcpSocket:
               port: django
