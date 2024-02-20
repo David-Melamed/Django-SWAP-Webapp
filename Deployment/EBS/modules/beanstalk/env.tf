@@ -26,16 +26,4 @@
       name      = "ServiceRole"
       value     = var.service_role_arn
     }
-
-    setting {
-      namespace = "aws:autoscaling:launchconfiguration"
-      name      = "IamInstanceProfile"
-      value     = "your-instance-profile-name"
-    }
-
-    setting {
-      namespace = "aws:elasticbeanstalk:application:environment"
-      name      = "KEY_NAME"
-      value     = "your-key-pair-name"
-    }
 }
