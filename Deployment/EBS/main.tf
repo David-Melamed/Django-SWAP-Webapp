@@ -23,7 +23,7 @@ module "ebs_role" {
 # modules/beanstalk/main.tf
 module "beanstalk" {
   source                  = "./modules/beanstalk"
-  ebs_app_name            = "swap-webapp-dev"
+  ebs_app_name            = "swap-webapp"
   ebs_app_description     = "Python Web App Application using Django Framework" 
   env                     = "dev"
   service_role_name       = "aws-elasticbeanstalk-ec2-role"
