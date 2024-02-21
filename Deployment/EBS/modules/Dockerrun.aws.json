@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "django",
-      "image": "public.ecr.aws/a9k6f9j6/django_swap:vbde74ed",
+      "image": "public.ecr.aws/a9k6f9j6/django_swap:154215-200224",
       "essential": true,
       "memory": 256,
       "portMappings": [
