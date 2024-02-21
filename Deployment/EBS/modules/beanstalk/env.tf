@@ -22,6 +22,12 @@
     }
 
     setting {
+      namespace = "aws:ec2:instances"
+      name = "InstanceTypes"
+      value = var.instance_type
+    }
+
+    setting {
       namespace = "aws:elasticbeanstalk:environment"
       name      = "ServiceRole"
       value     = var.service_role_arn

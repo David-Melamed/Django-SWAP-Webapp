@@ -3,13 +3,24 @@
   "containerDefinitions": [
     {
       "name": "django",
-      "image": "your-django-image",
+      "image": "public.ecr.aws/a9k6f9j6/django_swap:vbde74ed",
       "essential": true,
       "memory": 256,
       "portMappings": [
         {
           "hostPort": 80,
-          "containerPort": 8000
+          "containerPort": 8080
+        }
+      ],
+      "command": ["/bin/bash", "-c", "/usr/local/bin/docker-entrypoint.sh"],
+      "environment": [
+        {
+          "name": "DJANGO_SETTINGS_MODULE",
+          "value": "my_app.settings"
+        },
+        {
+            "name": "DB_HOST",
+            "value": "mysql"
         }
       ]
     },
@@ -27,21 +38,39 @@
       "environment": [
         {
           "name": "MYSQL_ROOT_PASSWORD",
-          "value": "your_mysql_root_password"
+          "value": "password"
         },
         {
           "name": "MYSQL_DATABASE",
-          "value": "your_django_db_name"
+          "value": "my_application"
         },
         {
           "name": "MYSQL_USER",
-          "value": "your_django_db_user"
+          "value": "root"
         },
         {
           "name": "MYSQL_PASSWORD",
-          "value": "your_django_db_password"
+          "value": "password"
         }
       ]
+    }
+  ],
+  "container_commands": [
+    {
+      "command": "python manage.py makemigrations",
+      "leader_only": true,
+      "wait_after_completion": 5
+    },
+    {
+      "command": "python manage.py migrate",
+      "leader_only": true,
+      "wait_after_completion": 5
+    },
+    {
+      "command": "python manage.py runserver 0.0.0.0:8080",
+      "leader_only": true,
+      "wait_after_completion": 0
+      
     }
   ]
 }
