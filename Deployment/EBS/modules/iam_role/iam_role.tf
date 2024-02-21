@@ -16,7 +16,7 @@ resource "aws_iam_policy" "awseb_full_access" {
 
 # Attach AWS Elastic Beanstalk policy
 resource "aws_iam_role_policy_attachment" "ebslab_beanstalk_policy_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkFullAccess"
+  policy_arn = aws_iam_policy.awseb_full_access.arn
   role       = aws_iam_role.ebslab_role.name
 }
 
