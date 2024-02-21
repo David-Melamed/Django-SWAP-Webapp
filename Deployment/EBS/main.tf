@@ -18,6 +18,7 @@ module "ebs_role" {
   source                  = "./modules/iam_role"
   role_name               = "ebslab-role"
   assume_role_policy_file = "./modules/iam_role/json/iam_role_policy.json"
+  assume_policy_file      = "./modules/iam_role/json/iam_policy.json"
 }
 
 # modules/beanstalk/main.tf
