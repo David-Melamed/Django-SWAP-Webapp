@@ -38,6 +38,12 @@
       name      = "IamInstanceProfile"
       value     = aws_iam_instance_profile.instance_profile.name
     }
+
+    setting {	
+      namespace = "aws:elasticbeanstalk:application:environment"	
+      name      = "KEY_NAME"	
+      value     = var.keypair	
+    }
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {

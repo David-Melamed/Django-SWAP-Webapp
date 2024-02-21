@@ -5,6 +5,7 @@ variable "vpc_id" {}
 variable "service_role_name" {}
 variable "service_role_arn" {}
 variable "instance_type" {}
+variable "keypair" {}
 variable "subnet_ids" {
   type = list(string)
 }
