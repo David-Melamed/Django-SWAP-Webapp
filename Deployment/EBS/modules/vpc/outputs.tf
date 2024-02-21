@@ -13,3 +13,7 @@ output "subnet_ids" {
 output "subnet_availability_zones" {
   value = aws_subnet.public_ebslab_subnet[*].availability_zone
 }
+
+output "security_group_id" {
+  value = aws_security_group.ebslab_security_group.id
+}

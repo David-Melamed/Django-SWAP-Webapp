@@ -44,6 +44,12 @@
       name      = "KEY_NAME"	
       value     = var.keypair	
     }
+
+    setting {
+      namespace = "aws:autoscaling:launchconfiguration"
+      name      = "SecurityGroups"
+      value     = var.security_group_id
+    }
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {

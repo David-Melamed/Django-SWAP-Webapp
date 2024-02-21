@@ -11,6 +11,7 @@ module "vpc" {
   rt_route_cidr_block     = "0.0.0.0/0"
   vpc_id                  = module.vpc.vpc_id
   subnet_ids              = module.vpc.subnet_ids
+  security_group_id       = module.vpc.security_group_id
 }
 
 # modules/iam_role/main.tf
@@ -33,4 +34,5 @@ module "beanstalk" {
   subnet_ids              = module.vpc.subnet_ids
   instance_type           = "t2.micro"
   keypair                 = "DavidKeyPair"
+  security_group_id       = module.vpc.security_group_id
 }
