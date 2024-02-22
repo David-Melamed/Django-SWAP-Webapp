@@ -1,17 +1,11 @@
 {
-  "AWSEBDockerrunVersion": 2,
+  "AWSEBDockerrunVersion": "1",
   "containerDefinitions": [
     {
-      "name": "mysql",
+      "name": "db",
       "image": "mysql:latest",
       "essential": true,
-      "memory": 256,
-      "portMappings": [
-        {
-          "hostPort": 3306,
-          "containerPort": 3306
-        }
-      ],
+      "memory": 100,
       "environment": [
         {
           "name": "MYSQL_ROOT_PASSWORD",
@@ -35,20 +29,19 @@
           "sourceVolume": "mysql-data",
           "containerPath": "/var/lib/mysql"
         }
+      ],
+      "portMappings": [
+        {
+          "hostPort": 3306,
+          "containerPort": 3306
+        }
       ]
     },
     {
-      "name": "django",
+      "name": "web",
       "image": "public.ecr.aws/a9k6f9j6/django_swap:154215-200224",
       "essential": true,
-      "memory": 256,
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 8080
-        }
-      ],
-      "command": ["/bin/bash", "-c", "/usr/local/bin/docker-entrypoint.sh"],
+      "memory": 100,
       "environment": [
         {
           "name": "DJANGO_SETTINGS_MODULE",
@@ -56,15 +49,21 @@
         },
         {
           "name": "DB_HOST",
-          "value": "mysql"
+          "value": "db"
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "django-static",
+          "containerPath": "/var/lib/mysql"  // Update this path accordingly
+        }
+      ],
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
         }
       ]
-    }
-  ],
-  "mountPoints": [
-    {
-      "sourceVolume": "django-static",
-      "containerPath": "/app/static"
     }
   ],
   "volumes": [
@@ -99,3 +98,10 @@
     }
   ]
 }
+
+
+
+
+
+
+

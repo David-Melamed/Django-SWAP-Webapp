@@ -35,4 +35,6 @@ module "beanstalk" {
   instance_type           = "t2.micro"
   keypair                 = "DavidKeyPair"
   security_group_id       = module.vpc.security_group_id
+  bucket_name             = join("-", [module.beanstalk.ebs_app_name, "bucket"])
+  application_version     = "v1"
 }
