@@ -32,9 +32,9 @@ module "beanstalk" {
   service_role_arn        = module.ebs_role.role_arn
   vpc_id                  = module.vpc.vpc_id
   subnet_ids              = module.vpc.subnet_ids
-  instance_type           = "t2.micro"
+  instance_type           = "t3.small"
   keypair                 = "DavidKeyPair"
   security_group_id       = module.vpc.security_group_id
   bucket_name             = join("-", [module.beanstalk.ebs_app_name, "bucket"])
-  application_version     = "v1"
+  application_version     = "v1.52"
 }

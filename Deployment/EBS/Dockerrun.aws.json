@@ -1,11 +1,17 @@
 {
-  "AWSEBDockerrunVersion": "1",
+  "AWSEBDockerrunVersion": "2",
   "containerDefinitions": [
     {
-      "name": "db",
+      "name": "mysql",
       "image": "mysql:latest",
       "essential": true,
-      "memory": 100,
+      "memory": 1024,
+      "portMappings": [
+        {
+          "hostPort": 3306,
+          "containerPort": 3306
+        }
+      ],
       "environment": [
         {
           "name": "MYSQL_ROOT_PASSWORD",
@@ -14,10 +20,6 @@
         {
           "name": "MYSQL_DATABASE",
           "value": "my_application"
-        },
-        {
-          "name": "MYSQL_USER",
-          "value": "root"
         },
         {
           "name": "MYSQL_PASSWORD",
@@ -29,41 +31,40 @@
           "sourceVolume": "mysql-data",
           "containerPath": "/var/lib/mysql"
         }
-      ],
-      "portMappings": [
-        {
-          "hostPort": 3306,
-          "containerPort": 3306
-        }
       ]
     },
     {
       "name": "web",
       "image": "public.ecr.aws/a9k6f9j6/django_swap:154215-200224",
-      "essential": true,
-      "memory": 100,
+      "essential": false,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 8080,
+          "containerPort": 8080
+        }
+      ],
       "environment": [
         {
           "name": "DJANGO_SETTINGS_MODULE",
-          "value": "my_app.settings"
+          "value": "django_main.settings"
         },
         {
           "name": "DB_HOST",
-          "value": "db"
+          "value": "mysql"
         }
       ],
-      "mountPoints": [
-        {
-          "sourceVolume": "django-static",
-          "containerPath": "/var/lib/mysql"  // Update this path accordingly
-        }
-      ],
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 8080
-        }
+      "command": [
+        "/bin/bash",
+        "-c",
+        "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8080"
       ]
+    }
+  ],
+  "mountPoints": [
+    {
+      "sourceVolume": "django-static",
+      "containerPath": "/app/static"
     }
   ],
   "volumes": [
@@ -80,28 +81,5 @@
       }
     }
   ],
-  "container_commands": [
-    {
-      "command": "python manage.py makemigrations",
-      "leader_only": true,
-      "wait_after_completion": 5
-    },
-    {
-      "command": "python manage.py migrate",
-      "leader_only": true,
-      "wait_after_completion": 5
-    },
-    {
-      "command": "python manage.py runserver 0.0.0.0:8080",
-      "leader_only": true,
-      "wait_after_completion": 0
-    }
-  ]
+  "dependsOn": "mysql"
 }
-
-
-
-
-
-
-
