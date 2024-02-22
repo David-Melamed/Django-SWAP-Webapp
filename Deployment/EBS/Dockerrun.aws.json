@@ -2,29 +2,6 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "name": "django",
-      "image": "public.ecr.aws/a9k6f9j6/django_swap:154215-200224",
-      "essential": true,
-      "memory": 256,
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 8080
-        }
-      ],
-      "command": ["/bin/bash", "-c", "/usr/local/bin/docker-entrypoint.sh"],
-      "environment": [
-        {
-          "name": "DJANGO_SETTINGS_MODULE",
-          "value": "my_app.settings"
-        },
-        {
-            "name": "DB_HOST",
-            "value": "mysql"
-        }
-      ]
-    },
-    {
       "name": "mysql",
       "image": "mysql:latest",
       "essential": true,
@@ -52,7 +29,56 @@
           "name": "MYSQL_PASSWORD",
           "value": "password"
         }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "mysql-data",
+          "containerPath": "/var/lib/mysql"
+        }
       ]
+    },
+    {
+      "name": "django",
+      "image": "public.ecr.aws/a9k6f9j6/django_swap:154215-200224",
+      "essential": true,
+      "memory": 256,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
+        }
+      ],
+      "command": ["/bin/bash", "-c", "/usr/local/bin/docker-entrypoint.sh"],
+      "environment": [
+        {
+          "name": "DJANGO_SETTINGS_MODULE",
+          "value": "my_app.settings"
+        },
+        {
+          "name": "DB_HOST",
+          "value": "mysql"
+        }
+      ]
+    }
+  ],
+  "mountPoints": [
+    {
+      "sourceVolume": "django-static",
+      "containerPath": "/app/static"
+    }
+  ],
+  "volumes": [
+    {
+      "name": "mysql-data",
+      "host": {
+        "sourcePath": "/etc/mysql-data"
+      }
+    },
+    {
+      "name": "django-static",
+      "host": {
+        "sourcePath": "/etc/django-static"
+      }
     }
   ],
   "container_commands": [
@@ -70,7 +96,6 @@
       "command": "python manage.py runserver 0.0.0.0:8080",
       "leader_only": true,
       "wait_after_completion": 0
-      
     }
   ]
 }
