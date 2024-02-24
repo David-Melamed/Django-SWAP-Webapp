@@ -35,7 +35,7 @@
     },
     {
       "name": "web",
-      "image": "public.ecr.aws/a9k6f9j6/django_swap:154215-200224",
+      "image": "public.ecr.aws/a9k6f9j6/django_swap:191311-240224",
       "essential": false,
       "memory": 512,
       "portMappings": [
