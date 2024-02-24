@@ -9,7 +9,7 @@ django:
   image:
     repository: public.ecr.aws/a9k6f9j6/django_swap  # Django app image repository
     pullPolicy: IfNotPresent
-    tag: 192841-240224
+    tag: 193754-240224
   service:
     type: ClusterIP
     port: 8080
