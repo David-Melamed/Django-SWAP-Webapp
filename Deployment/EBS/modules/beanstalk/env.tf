@@ -49,7 +49,7 @@
     setting {
       namespace = "aws:autoscaling:launchconfiguration"
       name      = "SecurityGroups"
-      value     = var.security_group_id
+      value     = var.security_group_id[0]
     }
 }
 

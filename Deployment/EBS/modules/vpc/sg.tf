@@ -1,6 +1,6 @@
 # Create a security group
 resource "aws_security_group" "ebslab_security_group" {
-  name        = "ebslab-sg"
+  name        = var.sg_name
   description = "Security group for Elastic Beanstalk"
 
   vpc_id      = aws_vpc.ebslab_vpc.id
