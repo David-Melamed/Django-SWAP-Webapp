@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   web:
-    image: public.ecr.aws/a9k6f9j6/django_swap:193754-240224
+    image: public.ecr.aws/a9k6f9j6/django_swap:154639-280224
     container_name: web
     environment:
       DJANGO_SETTINGS_MODULE: django_main.settings
@@ -11,7 +11,12 @@ services:
     volumes:
       - "/var/app/current:/etc/django-static"
     healthcheck:
-      test: ["CMD", "nc", "-z", "${DB_HOST}", "3306"]
-      interval: 10s
-      timeout: 60s
-      retries: 3
+      test: ["CMD", "sh", "-c", "nc -z ${DB_HOST} 3306"]
+      interval: 15s
+      timeout: 90s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "2m"
+        max-file: "5"

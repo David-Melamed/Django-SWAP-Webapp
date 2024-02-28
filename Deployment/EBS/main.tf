@@ -55,6 +55,7 @@ module "beanstalk" {
   keypair                 = "DavidKeyPair"
   security_group_id       = module.vpc.security_group_id
   bucket_name             = join("-", [module.beanstalk.ebs_app_name, "bucket"])
-  application_version     = "v1.59.8.1"
+  application_version     = "v1.59.9.7"
   instance_private_ips    = module.beanstalk.instance_private_ips
+  cname_prefix            = module.beanstalk.beanstalk_cname_prefix
 }
