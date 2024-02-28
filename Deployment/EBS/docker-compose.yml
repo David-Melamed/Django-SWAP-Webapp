@@ -13,5 +13,5 @@ services:
     healthcheck:
       test: ["CMD", "nc", "-z", "${DB_HOST}", "3306"]
       interval: 10s
-      timeout: 60s
-      retries: 3
+      timeout: 1m
+      retries: 8
