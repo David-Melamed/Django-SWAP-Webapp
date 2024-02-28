@@ -9,6 +9,7 @@ variable "keypair" {}
 variable "bucket_name" {}
 variable "security_group_id" {}
 variable "application_version" {}
+variable "cname_prefix" {}
 variable instance_private_ips {
   type = list(any)
 }

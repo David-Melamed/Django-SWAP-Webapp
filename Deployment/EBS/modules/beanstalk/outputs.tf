@@ -14,3 +14,7 @@ output "instance_private_ips" {
 output "env" {
   value = aws_elastic_beanstalk_environment.ebslab_env.name
 }
+
+output "beanstalk_cname_prefix" {
+  value = join("-", [var.ebs_app_name, var.env])
+}

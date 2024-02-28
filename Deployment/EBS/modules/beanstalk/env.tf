@@ -3,6 +3,7 @@
     application         = aws_elastic_beanstalk_application.ebslab_app.name
     solution_stack_name = "64bit Amazon Linux 2023 v4.2.2 running Docker"
     version_label = "${aws_elastic_beanstalk_application_version.latest.name}"
+    cname_prefix  = var.cname_prefix
     
     setting {
         namespace = "aws:ec2:vpc"
