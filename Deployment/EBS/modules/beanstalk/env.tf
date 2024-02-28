@@ -1,9 +1,9 @@
     resource "aws_elastic_beanstalk_environment" "ebslab_env" {
     name = format("%s-%s", var.ebs_app_name, var.env)
     application         = aws_elastic_beanstalk_application.ebslab_app.name
-    solution_stack_name = "64bit Amazon Linux 2023 v4.0.4 running ECS"
+    solution_stack_name = "64bit Amazon Linux 2023 v4.2.2 running Docker"
     version_label = "${aws_elastic_beanstalk_application_version.latest.name}"
-
+    
     setting {
         namespace = "aws:ec2:vpc"
         name      = "VPCId"

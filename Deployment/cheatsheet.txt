@@ -27,3 +27,16 @@ helm template db-deployment ./mysql -n db -f ./mysql/values.yaml
 
 ##argocd sync apply
 argocd app sync mysql
+
+##Web docker run command
+docker run \
+  --name web \
+  --detach=false \
+  --memory 512m \
+  --publish 8080:8080 \
+  --env DJANGO_SETTINGS_MODULE=django_main.settings \
+  --env DB_HOST=terraform-xxx.eu-west-1.rds.amazonaws.com \
+  --volume mysql-data:/etc/mysql-data \
+  --volume django-static:/app/static \
+  public.ecr.aws/a9k6f9j6/django_swap:193754-240224 \
+  /bin/bash -c "python manage.py makemigrations && sleep 5 && python manage.py migrate && sleep 5 && python manage.py runserver 0.0.0.0:8080"
