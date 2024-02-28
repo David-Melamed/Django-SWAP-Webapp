@@ -51,7 +51,7 @@
         },
         {
           "name": "DB_HOST",
-          "value": "mysql"
+          "value": "swap-webapp-dev.ebs-lab-mysql"
         }
       ],
       "command": []

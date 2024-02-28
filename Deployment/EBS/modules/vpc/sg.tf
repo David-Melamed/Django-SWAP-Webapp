@@ -1,6 +1,6 @@
 # Create a security group
 resource "aws_security_group" "ebslab_security_group" {
-  name        = "ebslab-sg"
+  name        = var.sg_name
   description = "Security group for Elastic Beanstalk"
 
   vpc_id      = aws_vpc.ebslab_vpc.id
@@ -22,4 +22,13 @@ resource "aws_security_group_rule" "ebslab_security_group_rule_ssh" {
   to_port           = 22
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]  # Allow SSH from any IP address
+}
+
+resource "aws_security_group_rule" "internal_mysql_communication" {
+  security_group_id = aws_security_group.ebslab_security_group.id
+  type              = "ingress"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  source_security_group_id = aws_security_group.ebslab_security_group.id
 }
