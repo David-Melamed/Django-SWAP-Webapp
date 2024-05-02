@@ -2,5 +2,5 @@ SWAP/django_swap/accounts/__pycache__/
 SWAP/django_swap/accounts/migrations/
 Deployment/EBS/.terraform/
 Deployment/EBS/.terraform.lock.hcl
-Deployment/EBS/terraform_tfstate
+Deployment/EBS/terraform.tfstate
 Deployment/EBS/terraform.tfstate.backup
