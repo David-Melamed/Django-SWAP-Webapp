@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   web:
-    image: public.ecr.aws/a9k6f9j6/django_swap:125511-020524
+    image: public.ecr.aws/a9k6f9j6/django_swap:134414-020524
     container_name: web
     environment:
       DJANGO_SETTINGS_MODULE: django_main.settings
