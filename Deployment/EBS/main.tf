@@ -59,3 +59,7 @@ module "beanstalk" {
   instance_private_ips    = module.beanstalk.instance_private_ips
   cname_prefix            = module.beanstalk.beanstalk_cname_prefix
 }
+
+module "nginx" {
+  source                  = "./modules/nginx"
+}
