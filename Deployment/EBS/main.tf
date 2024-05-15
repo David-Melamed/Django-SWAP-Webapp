@@ -16,11 +16,12 @@ module "vpc" {
   enable_dns_hostnames    = true
 }
 
-module "ebs_role" {
-  source                  = "./modules/iam_role"
+module "iam" {
+  source                  = "./modules/iam"
   role_name               = "ebslab-role"
-  assume_role_policy_file = "./modules/iam_role/json/iam_role_policy.json"
-  assume_policy_file      = "./modules/iam_role/json/iam_policy.json"
+  assume_role_policy_file = "./modules/iam/json/iam_role_policy.json"
+  assume_policy_file      = "./modules/iam/json/iam_policy.json"
+  assume_ebs_ec2_file     = "./modules/iam/json/aws-elasticbeamstalk-ec2-role.json"
 }
 
 module "rds" {
@@ -37,10 +38,23 @@ module "rds" {
   subnet_ids              = module.vpc.subnet_ids
   vpc_security_group_id   = module.vpc.security_group_id
   vpc_id                  = module.vpc.vpc_id
-  zone_name               = join("-", ["ebs-lab", "mysql"])
   instance_private_ips    = module.beanstalk.instance_private_ips
-  record_name             = module.beanstalk.env
   }
+
+module "route53_zone" {
+  source                  = "./modules/route53/zone"
+  zone_name               = "ebslab"
+  vpc_id                  = module.vpc.vpc_id
+  zone_id                 = module.route53_zone.zone_id
+}
+
+module "route53_rds_record" {
+  source                  = "./modules/route53/rds_record"
+  zone_name               = "ebslab"
+  rds_record_name         = join("-", ["rds", "dev"])
+  rds_address             = module.rds.db_endpoint
+  zone_id                 = module.route53_zone.zone_id
+}
 
 module "beanstalk" {
   source                  = "./modules/beanstalk"
@@ -48,18 +62,33 @@ module "beanstalk" {
   ebs_app_description     = "Python Web App Application using Django Framework" 
   env                     = "dev"
   service_role_name       = "aws-elasticbeanstalk-ec2-role"
-  service_role_arn        = module.ebs_role.role_arn
+  service_role_arn        = module.iam.role_arn
   vpc_id                  = module.vpc.vpc_id
   subnet_ids              = module.vpc.subnet_ids
   instance_type           = "t3.small"
-  keypair                 = "DavidKeyPair"
   security_group_id       = module.vpc.security_group_id
   bucket_name             = join("-", [module.beanstalk.ebs_app_name, "bucket"])
-  application_version     = "v1.59.9.9"
+  application_version     = "v1.6"
   instance_private_ips    = module.beanstalk.instance_private_ips
   cname_prefix            = module.beanstalk.beanstalk_cname_prefix
+  ebs_environment_url     = module.beanstalk.ebs_environment_url
+  # ssl_certificate_arn     = module.acm.ssl_certificate_arn
 }
 
-module "nginx" {
-  source                  = "./modules/nginx"
+module "route53_ebs_record" {
+  source                  = "./modules/route53/ebs_record"
+  zone_name               = "ebslab"
+  ebs_record_name         = join("-", ["swap-app", "dev"]) 
+  ebs_address             = "swap-webapp-dev.eu-west-1.elasticbeanstalk.com"
+  #ebs_address             = module.beanstalk.ebs_environment_url
+  zone_id                 = module.route53_zone.zone_id
+  ebs-cert-validation     = module.route53_ebs_record.ebs-cert-validation
 }
+
+
+# module "acm" {
+#   source                  = "./modules/acm"
+#   acm_domain_name         = "swap-app-dev.ebslab"
+#   cert-validations        = module.route53_ebs_record.ebs-cert-validation
+#   # acm_domain_name         = "module.route53_ebs_record.ebs_address"
+# }

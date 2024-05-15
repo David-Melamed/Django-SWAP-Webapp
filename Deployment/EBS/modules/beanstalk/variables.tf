@@ -5,7 +5,6 @@ variable "vpc_id" {}
 variable "service_role_name" {}
 variable "service_role_arn" {}
 variable "instance_type" {}
-variable "keypair" {}
 variable "bucket_name" {}
 variable "security_group_id" {}
 variable "application_version" {}
@@ -16,3 +15,6 @@ variable instance_private_ips {
 variable "subnet_ids" {
   type = list(string)
 }
+
+variable "ebs_environment_url" {}
+# variable "ssl_certificate_arn" {}
