@@ -8,8 +8,6 @@ variable subnet_name {}
 variable engine_version {}
 variable db_name {}
 variable vpc_id {}
-variable zone_name {}
-variable record_name {}
 variable instance_private_ips {
   type = list(any)
 }

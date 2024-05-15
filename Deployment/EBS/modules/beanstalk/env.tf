@@ -41,17 +41,35 @@
       value     = aws_iam_instance_profile.instance_profile.name
     }
 
-    setting {	
-      namespace = "aws:elasticbeanstalk:application:environment"	
-      name      = "KEY_NAME"	
-      value     = var.keypair	
-    }
-
     setting {
       namespace = "aws:autoscaling:launchconfiguration"
       name      = "SecurityGroups"
       value     = var.security_group_id[0]
     }
+
+    setting {
+      namespace = "aws:elb:loadbalancer"
+      name      = "LoadBalancerHTTPPort"
+      value     = "80"
+    }
+  
+    setting {
+      namespace = "aws:elb:loadbalancer"
+      name      = "LoadBalancerHTTPSPort"
+      value     = "443"
+    }
+  
+    setting {
+      namespace = "aws:elb:loadbalancer"
+      name      = "LoadBalancerHTTPSProtocol"
+      value     = "SSL"
+    }
+  
+    # setting {
+    #   namespace = "aws:elb:loadbalancer"
+    #   name      = "LoadBalancerSSLCertificateArns"
+    #   value     = var.ssl_certificate_arn
+    # }
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
