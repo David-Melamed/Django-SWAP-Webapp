@@ -1,13 +1,13 @@
 version: "3.9"
 services:
   web:
-    image: public.ecr.aws/a9k6f9j6/django_swap:134414-020524
+    image: public.ecr.aws/a9k6f9j6/django_swap:100222-150524
     container_name: web
     environment:
       DJANGO_SETTINGS_MODULE: django_main.settings
       DB_HOST: rds-dev.ebslab
     ports:
-      - "8080:8080"
+      - "9090:9090"
     volumes:
       - "/var/app/current:/etc/django-static"
     healthcheck:
@@ -20,14 +20,3 @@ services:
       options:
         max-size: "2m"
         max-file: "5"
-
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    ports:
-      - "8080:80"
-    volumes:
-      - "./nginx/config/swap-app:/etc/nginx/sites-available/:ro"
-    depends_on:
-      - web
-    command: ["sh", "-c", "apt-get update && apt-get install -y inotify-tools && inotifywait -m /etc/nginx/conf.d -e modify -e create -e delete | while read path action file; do nginx -s reload; done"]

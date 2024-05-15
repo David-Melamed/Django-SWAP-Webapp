@@ -6,11 +6,20 @@ resource "aws_security_group" "ebslab_security_group" {
   vpc_id      = aws_vpc.ebslab_vpc.id
 }
 
-resource "aws_security_group_rule" "ebslab_security_group_rule_8080" {
+resource "aws_security_group_rule" "ebslab_security_group_rule_80" {
   security_group_id = aws_security_group.ebslab_security_group.id
   type              = "ingress"
-  from_port         = 8080
-  to_port           = 8080
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]  # Allow traffic from any IP address
+}
+
+resource "aws_security_group_rule" "ebslab_security_group_rule_9090" {
+  security_group_id = aws_security_group.ebslab_security_group.id
+  type              = "ingress"
+  from_port         = 9090
+  to_port           = 9090
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]  # Allow traffic from any IP address
 }
