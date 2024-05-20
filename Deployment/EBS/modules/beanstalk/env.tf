@@ -2,7 +2,7 @@
     name = format("%s-%s", var.ebs_app_name, var.env)
     application = aws_elastic_beanstalk_application.ebslab_app.name
     solution_stack_name = var.solution_stack_name
-    version_label = "${aws_elastic_beanstalk_application_version.latest.name}"
+    version_label = "${aws_elastic_beanstalk_application_version.app_version.name}"
     cname_prefix  = var.cname_prefix
     
     setting {
@@ -69,11 +69,4 @@
 resource "aws_iam_instance_profile" "instance_profile" {
   name = "aws-elasticbeanstalk-ec2-instance-profile"
   role = var.service_role_name
-}
-
-resource "aws_elastic_beanstalk_application_version" "latest" {
-  name        = format("%s-%s-%s", var.ebs_app_name, var.env, var.application_version)
-  application = aws_elastic_beanstalk_application.ebslab_app.name
-  bucket      = aws_s3_bucket.dockerrun_bucket.id
-  key         = aws_s3_object.dockerrun_object.id
 }

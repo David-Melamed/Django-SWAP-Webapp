@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # Restart Nginx service
-service nginx restart
+sudo service nginx reload

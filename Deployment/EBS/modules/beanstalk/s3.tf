@@ -3,8 +3,18 @@ resource "aws_s3_bucket" "dockerrun_bucket" {
   object_lock_enabled = false
 }
 
-resource "aws_s3_object" "dockerrun_object" {
+resource "null_resource" "zip_application" {
+  triggers = {
+    version = var.application_version
+  }
+
+  provisioner "local-exec" {
+    command = "zip -r swapapp-${var.application_version}.zip docker-compose.yml .ebextensions .platform"
+  }
+}
+
+resource "aws_s3_object" "application_zip" {
   bucket = aws_s3_bucket.dockerrun_bucket.id
-  key = "beanstalk/docker-compose-${var.application_version}.yml"
-  source = "docker-compose.yml"
+  key    = "beanstalk/swapapp-${var.application_version}.zip"
+  source = "swapapp-${var.application_version}.zip"
 }
