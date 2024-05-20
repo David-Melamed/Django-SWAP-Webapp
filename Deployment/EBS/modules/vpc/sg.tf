@@ -33,6 +33,15 @@ resource "aws_security_group_rule" "ebslab_security_group_rule_ssh" {
   cidr_blocks       = ["0.0.0.0/0"]  # Allow SSH from any IP address
 }
 
+resource "aws_security_group_rule" "ebslab_security_group_rule_ssl" {
+  security_group_id = aws_security_group.ebslab_security_group.id
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]  # Allow secure connection from any IP address
+}
+
 resource "aws_security_group_rule" "internal_mysql_communication" {
   security_group_id = aws_security_group.ebslab_security_group.id
   type              = "ingress"

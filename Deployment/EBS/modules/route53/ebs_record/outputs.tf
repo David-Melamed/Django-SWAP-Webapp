@@ -6,6 +6,10 @@ output "ebs_url" {
   value = var.ebs_record_name
 }
 
-output "ebs-cert-validation" {
-  value = aws_route53_record.ebs-ns.fqdn
+output "domain_validation_options" {
+  value = aws_route53_record.ebs-ns
+}
+
+output "ebs_record_name" {
+  value = var.ebs_record_name
 }

@@ -17,4 +17,5 @@ variable "subnet_ids" {
 }
 
 variable "ebs_environment_url" {}
-# variable "ssl_certificate_arn" {}
+variable "ssl_certificate_arn" {}
+variable "solution_stack_name" {}

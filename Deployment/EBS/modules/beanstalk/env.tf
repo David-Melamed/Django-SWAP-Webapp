@@ -1,7 +1,7 @@
     resource "aws_elastic_beanstalk_environment" "ebslab_env" {
     name = format("%s-%s", var.ebs_app_name, var.env)
-    application         = aws_elastic_beanstalk_application.ebslab_app.name
-    solution_stack_name = "64bit Amazon Linux 2023 v4.2.2 running Docker"
+    application = aws_elastic_beanstalk_application.ebslab_app.name
+    solution_stack_name = var.solution_stack_name
     version_label = "${aws_elastic_beanstalk_application_version.latest.name}"
     cname_prefix  = var.cname_prefix
     
@@ -20,7 +20,7 @@
     setting {
       namespace = "aws:elasticbeanstalk:environment"
       name      = "EnvironmentType"
-      value     = "SingleInstance"
+      value     = "LoadBalanced"
     }
 
     setting {
@@ -48,28 +48,22 @@
     }
 
     setting {
-      namespace = "aws:elb:loadbalancer"
-      name      = "LoadBalancerHTTPPort"
-      value     = "80"
+    namespace = "aws:elasticbeanstalk:environment"
+    name      = "LoadBalancerType"
+    value     = "classic"
     }
-  
+
     setting {
       namespace = "aws:elb:loadbalancer"
-      name      = "LoadBalancerHTTPSPort"
-      value     = "443"
+      name      = "ManagedSecurityGroup"
+      value     = var.security_group_id[0]
     }
-  
+
     setting {
       namespace = "aws:elb:loadbalancer"
-      name      = "LoadBalancerHTTPSProtocol"
-      value     = "SSL"
+      name      = "SSLCertificateId"
+      value     = var.ssl_certificate_arn
     }
-  
-    # setting {
-    #   namespace = "aws:elb:loadbalancer"
-    #   name      = "LoadBalancerSSLCertificateArns"
-    #   value     = var.ssl_certificate_arn
-    # }
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
@@ -81,5 +75,5 @@ resource "aws_elastic_beanstalk_application_version" "latest" {
   name        = format("%s-%s-%s", var.ebs_app_name, var.env, var.application_version)
   application = aws_elastic_beanstalk_application.ebslab_app.name
   bucket      = aws_s3_bucket.dockerrun_bucket.id
-  key          = aws_s3_object.dockerrun_object.id
+  key         = aws_s3_object.dockerrun_object.id
 }
