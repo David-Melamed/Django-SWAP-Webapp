@@ -19,3 +19,4 @@ variable "subnet_ids" {
 variable "ebs_environment_url" {}
 variable "ssl_certificate_arn" {}
 variable "solution_stack_name" {}
+variable "subnet_availability_zones" {}

@@ -64,6 +64,10 @@
       name      = "SSLCertificateId"
       value     = var.ssl_certificate_arn
     }
+
+    depends_on = [ 
+      var.ssl_certificate_arn
+     ]
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
