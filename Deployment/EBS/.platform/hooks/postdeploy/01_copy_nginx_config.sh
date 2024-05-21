@@ -17,7 +17,7 @@ fi
 
 # Attempt to copy the files
 log "Starting to copy files from $SOURCE_DIR to $DEST_DIR"
-cp -r "$SOURCE_DIR" "$DEST_DIR"
+cp -r ${SOURCE_DIR}* ${DEST_DIR}
 if [ $? -eq 0 ]; then
     log "Files copied successfully."
 else
