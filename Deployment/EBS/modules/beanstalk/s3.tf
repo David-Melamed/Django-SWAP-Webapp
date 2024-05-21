@@ -1,6 +1,10 @@
 resource "aws_s3_bucket" "dockerrun_bucket" {
   bucket = var.bucket_name
   object_lock_enabled = false
+
+  tags = {
+          "elasticbeanstalk:environment-name" = format("%s-%s", var.ebs_app_name, var.env)
+  }
 }
 
 resource "null_resource" "zip_application" {

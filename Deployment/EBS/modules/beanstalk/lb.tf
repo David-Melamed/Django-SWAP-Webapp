@@ -30,31 +30,32 @@ resource "aws_lb_target_group" "fronted_tg" {
 }
 
 resource "aws_lb_listener" "https_listener" {
-  load_balancer_arn = aws_lb.front_end.arn
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn = var.ssl_certificate_arn
+    load_balancer_arn = aws_lb.front_end.arn
+    port              = "443"
+    protocol          = "HTTPS"
+    ssl_policy        = "ELBSecurityPolicy-2016-08"
+    certificate_arn = var.ssl_certificate_arn
 
   default_action {
     type = "forward"
     target_group_arn = aws_lb_target_group.fronted_tg.arn
-  }
+    }
 }
 
 resource "aws_lb_listener_certificate" "example" {
-  listener_arn    = aws_lb_listener.https_listener.arn
-  certificate_arn = var.ssl_certificate_arn
+    listener_arn    = aws_lb_listener.https_listener.arn
+    certificate_arn = var.ssl_certificate_arn
+}
+
+data "aws_instances" "eb_env_instances" {
+    instance_tags = {
+        "elasticbeanstalk:environment-name" = format("%s-%s", var.ebs_app_name, var.env)
+  }
 }
 
 resource "aws_lb_target_group_attachment" "test" {
-
-  for_each = {
-    for k, v in aws_elastic_beanstalk_environment.ebslab_env.instances :
-    k => v
-  }
-
-  target_group_arn = aws_lb_target_group.fronted_tg.arn
-  target_id        = each.value
-  port             = 80
+    for_each = toset(data.aws_instances.eb_env_instances.ids)
+    target_group_arn = aws_lb_target_group.fronted_tg.arn
+    target_id        = each.value.id
+    port             = 80
 }
