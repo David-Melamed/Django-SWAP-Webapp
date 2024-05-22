@@ -5,3 +5,4 @@ Deployment/EBS/.terraform.lock.hcl
 Deployment/EBS/terraform.tfstate
 Deployment/EBS/terraform.tfstate.backup
 Deployment/EBS/.platform/ssh/*
+Deployment/EBS/*.zip

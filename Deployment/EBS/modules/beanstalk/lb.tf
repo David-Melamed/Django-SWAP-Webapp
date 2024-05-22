@@ -42,20 +42,29 @@ resource "aws_lb_listener" "https_listener" {
     }
 }
 
-resource "aws_lb_listener_certificate" "example" {
+resource "aws_lb_listener_certificate" "listener_cert" {
     listener_arn    = aws_lb_listener.https_listener.arn
     certificate_arn = var.ssl_certificate_arn
 }
 
-data "aws_instances" "eb_env_instances" {
-    instance_tags = {
-        "elasticbeanstalk:environment-name" = format("%s-%s", var.ebs_app_name, var.env)
-  }
-}
+# data "aws_instances" "eb_env_instances" {
+#     instance_tags = {
+#         "environment-name" = format("%s-%s", var.ebs_app_name, var.env)
+#   }
 
-resource "aws_lb_target_group_attachment" "test" {
-    for_each = toset(data.aws_instances.eb_env_instances.ids)
-    target_group_arn = aws_lb_target_group.fronted_tg.arn
-    target_id        = each.value.id
-    port             = 80
-}
+#   filter {
+#     name   = "vpc-id"
+#     values = [var.vpc_id]
+#   }
+# }
+
+# resource "aws_lb_target_group_attachment" "test" {
+#     for_each = {
+#           for k, v in data.aws_instances.eb_env_instances :
+#       k => v
+#     }
+
+#     target_group_arn = aws_lb_target_group.fronted_tg.arn
+#     target_id        = each.value.id
+#     port             = 80
+# }

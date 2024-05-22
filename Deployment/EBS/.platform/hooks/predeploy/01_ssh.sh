@@ -2,7 +2,7 @@
 
 # Define paths for the keys
 LOCAL_KEY_PATH="$HOME/.ssh/authorized_keys"  # The authorized_keys file path
-TEMP_KEY_PATH="/var/app/current/.platform/ssh/my_public_key.pub"  # Temporary public key path
+TEMP_KEY_PATH="/var/app/staging/.platform/ssh/id_rsa.pub"  # Temporary public key path
 
 # Check if the temporary public key exists
 if [ ! -f "$TEMP_KEY_PATH" ]; then

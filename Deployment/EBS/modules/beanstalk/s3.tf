@@ -15,6 +15,7 @@ resource "null_resource" "zip_application" {
   provisioner "local-exec" {
     command = "zip -r swapapp-${var.application_version}.zip docker-compose.yml .ebextensions .platform"
   }
+  depends_on = [null_resource.copy_ssh_key]
 }
 
 resource "aws_s3_object" "application_zip" {

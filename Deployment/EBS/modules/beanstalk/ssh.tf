@@ -5,7 +5,7 @@ resource "null_resource" "prepare_directories" {
 
   provisioner "local-exec" {
     command = <<EOT
-      mkdir -p ../.platform/ssh
+      mkdir -p ${path.root}/.platform/ssh
     EOT
   }
 }
@@ -14,11 +14,8 @@ resource "null_resource" "copy_ssh_key" {
   depends_on = [null_resource.prepare_directories]
 
   provisioner "local-exec" {
-    command = "cp ${var.path_to_ssh_public_key} ../.platform/ssh/id_rsa.pub"
+    command = <<EOT
+      cp $HOME/.ssh/id_rsa.pub ${path.root}/.platform/ssh/
+    EOT
   }
-}
-
-variable "path_to_ssh_public_key" {
-  description = "The path to the SSH public key"
-  default     = "~/.ssh/id_rsa.pub"
 }

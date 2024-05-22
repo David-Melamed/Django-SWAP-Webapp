@@ -66,11 +66,12 @@
     }
 
     tags = {
-          "elasticbeanstalk:environment-name" = format("%s-%s", var.ebs_app_name, var.env)
+          "environment-name" = format("%s-%s", var.ebs_app_name, var.env)
     }
     
     depends_on = [ 
-      var.ssl_certificate_arn
+      var.ssl_certificate_arn,
+      aws_lb.front_end
      ]
 }
 
