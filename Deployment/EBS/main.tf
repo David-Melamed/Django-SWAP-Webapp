@@ -56,14 +56,6 @@ module "route53_rds_record" {
   zone_id                 = module.route53_zone.zone_id
 }
 
-module "route53_ebs_record" {
-  source                  = "./modules/route53/ebs_record"
-  zone_name               = module.route53_zone.zone_name
-  ebs_record_name         = join("-", ["app", "dev"]) 
-  ebs_address             = "swapapp-web-dev.eu-west-1.elasticbeanstalk.com"
-  zone_id                 = module.route53_zone.zone_id
-}
-
 module "route53_registered_domains" {
   source                  = "./modules/route53/registered_domains"
   zone_name               = module.route53_zone.zone_name
@@ -73,10 +65,8 @@ module "route53_registered_domains" {
 
 module "acm" {
   source                  = "./modules/acm"
-  acm_domain_name         = module.route53_zone.zone_name
+  domain_name             = module.route53_zone.zone_name
   zone_id                 = module.route53_zone.zone_id
-  record_name             = module.route53_ebs_record.ebs_record_name
-  domain_validation_options  = module.route53_ebs_record.domain_validation_options
 }
 
 module "beanstalk" {
