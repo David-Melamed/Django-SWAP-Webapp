@@ -50,19 +50,37 @@
     setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "LoadBalancerType"
-    value     = "classic"
+    value     = "application"
     }
 
     setting {
-      namespace = "aws:elb:loadbalancer"
-      name      = "ManagedSecurityGroup"
+      namespace = "aws:elbv2:loadbalancer"
+      name      = "SecurityGroups"
       value     = var.security_group_id[0]
     }
 
     setting {
-      namespace = "aws:elb:loadbalancer"
-      name      = "SSLCertificateId"
+      namespace = "aws:elbv2:listener:443"
+      name      = "ListenerEnabled"
+      value     = true
+    }
+
+    setting {
+      namespace = "aws:elbv2:listener:443"
+      name      = "Protocol"
+      value     = "HTTPS"
+    }
+  
+    setting {
+      namespace = "aws:elbv2:listener:443"
+      name      = "SSLCertificateArns"
       value     = var.ssl_certificate_arn
+    }
+
+    setting {
+      namespace = "aws:elbv2:listener:443"
+      name      = "SSLPolicy"
+      value     = "ELBSecurityPolicy-2016-08"
     }
 
     tags = {
@@ -70,8 +88,8 @@
     }
     
     depends_on = [ 
-      var.ssl_certificate_arn,
-      aws_lb.front_end
+      var.ssl_certificate_arn
+      # aws_lb.front_end
      ]
 }
 
