@@ -4,10 +4,9 @@ module "vpc" {
   tags                    = "ebs-lab"
   instance_tenancy        = "default"
   vpc_cidr                = "10.0.0.0/16"
-  access_ip               = "0.0.0.0/0"
   public_sn_count         = 2
   public_cidrs            = ["10.0.1.0/24", "10.0.2.0/24"]
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = false
   rt_route_cidr_block     = "0.0.0.0/0"
   vpc_id                  = module.vpc.vpc_id
   subnet_ids              = module.vpc.subnet_ids
@@ -82,7 +81,7 @@ module "beanstalk" {
   instance_type           = "t3.small"
   security_group_id       = module.vpc.security_group_id
   bucket_name             = join("-", [module.beanstalk.ebs_app_name, "bucket"])
-  application_version     = "v1.79.4"
+  application_version     = "v1.79.5"
   instance_private_ips    = module.beanstalk.instance_private_ips
   cname_prefix            = module.beanstalk.ebs_app_name
   ebs_environment_url     = module.beanstalk.ebs_environment_url
