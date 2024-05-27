@@ -1,7 +1,4 @@
 resource "null_resource" "prepare_directories" {
-  triggers = {
-    always_run = "${timestamp()}"
-  }
 
   provisioner "local-exec" {
     command = <<EOT
