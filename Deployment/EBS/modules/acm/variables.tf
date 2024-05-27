@@ -1,2 +1,2 @@
-variable "acm_domain_name" {}
-variable "cert-validations" {}
+variable "domain_name" {}
+variable "zone_id" {}

@@ -17,4 +17,12 @@ variable "subnet_ids" {
 }
 
 variable "ebs_environment_url" {}
-# variable "ssl_certificate_arn" {}
+variable "ssl_certificate_arn" {}
+variable "solution_stack_name" {}
+variable "subnet_availability_zones" {}
+variable "path_to_ssh_public_key" {
+  description = "The path to the SSH public key"
+  default     = "~/.ssh/id_rsa.pub"
+}
+variable "zone_id" {}
+variable "zone_name" {}
