@@ -5,3 +5,4 @@ resource "aws_route53_record" "ebs-ns" {
   ttl     = "15"
   records = ["${var.ebs_address}"] 
 }
+
