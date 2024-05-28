@@ -1,8 +1,8 @@
 name: Build and Test
 on:
   push:
-    branches:
-      - main
+    # branches:
+    #   - main
     paths:
       - 'SWAP/django_swap/**'  # This line filters changes to files under SWAP/django_swap/
   
