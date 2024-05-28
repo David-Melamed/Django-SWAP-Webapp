@@ -14,7 +14,7 @@
     setting {
         namespace = "aws:ec2:vpc"
         name      = "Subnets"
-        value     = join(",", var.subnet_ids)
+        value     = join(",", var.private_subnet_ids)
     }
 
     setting {
@@ -44,7 +44,7 @@
     setting {
       namespace = "aws:autoscaling:launchconfiguration"
       name      = "SecurityGroups"
-      value     = var.security_group_id[0]
+      value     = join(",", var.private_subnet_ids)
     }
 
     setting {
@@ -56,7 +56,7 @@
     setting {
       namespace = "aws:elbv2:loadbalancer"
       name      = "SecurityGroups"
-      value     = var.security_group_id[0]
+      value     = join(",", var.public_subnet_ids)
     }
 
     setting {

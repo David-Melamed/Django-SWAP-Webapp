@@ -1,5 +1,11 @@
-output "aws_public_subnet" {
-  value = aws_subnet.public_ebslab_subnet.*.id
+output "public_subnet_ids" {
+  value = [for s in aws_subnet.ebslab_subnets : s.id if s.map_public_ip_on_launch]
+  description = "List of IDs of public subnets"
+}
+
+output "private_subnet_ids" {
+  value = [for s in aws_subnet.ebslab_subnets : s.id if !s.map_public_ip_on_launch]
+  description = "List of IDs of private subnets"
 }
 
 output "vpc_id" {
@@ -7,11 +13,11 @@ output "vpc_id" {
 }
 
 output "subnet_ids" {
-  value = aws_subnet.public_ebslab_subnet[*].id
+  value = aws_subnet.ebslab_subnets[*].id
 }
 
 output "subnet_availability_zones" {
-  value = aws_subnet.public_ebslab_subnet[*].availability_zone
+  value = aws_subnet.ebslab_subnets[*].availability_zone
 }
 
 output "security_group_id" {
@@ -19,5 +25,5 @@ output "security_group_id" {
 }
 
 output "sg_name" {
-  value = aws_subnet.public_ebslab_subnet[0].tags["Name"]
+  value = aws_subnet.ebslab_subnets[0].tags["Name"]
 }

@@ -13,8 +13,7 @@ resource "aws_db_instance" "mysql_db" {
 }
 
 resource "aws_db_subnet_group" "db_subnet_group" {
-  name = var.subnet_name
-  subnet_ids = var.subnet_ids
+  subnet_ids = var.private_subnet_ids
 
   tags = {
     Name = "MySQL DB Subnet Group"
