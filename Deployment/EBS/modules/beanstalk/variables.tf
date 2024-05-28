@@ -12,9 +12,6 @@ variable "cname_prefix" {}
 variable instance_private_ips {
   type = list(any)
 }
-variable "subnet_ids" {
-  type = list(string)
-}
 
 variable "ebs_environment_url" {}
 variable "ssl_certificate_arn" {}
@@ -26,3 +23,11 @@ variable "path_to_ssh_public_key" {
 }
 variable "zone_id" {}
 variable "zone_name" {}
+
+variable private_subnet_ids {
+  type = list(any)
+}
+
+variable public_subnet_ids {
+  type = list(any)
+}

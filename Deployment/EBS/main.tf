@@ -32,12 +32,14 @@ module "rds" {
   username                = "root"
   password                = "password"
   db_name                 = "my_application"
-  skip_final_snapshot     = true
+  skip_final_snapshot     = false
   subnet_name             = module.vpc.sg_name
   subnet_ids              = module.vpc.subnet_ids
   vpc_security_group_id   = module.vpc.security_group_id
   vpc_id                  = module.vpc.vpc_id
   instance_private_ips    = module.beanstalk.instance_private_ips
+  private_subnet_ids      = module.vpc.private_subnet_ids
+  public_subnet_ids       = module.vpc.public_subnet_ids
   }
 
 module "route53_zone" {
@@ -77,11 +79,10 @@ module "beanstalk" {
   service_role_name       = "aws-elasticbeanstalk-ec2-role"
   service_role_arn        = module.iam.role_arn
   vpc_id                  = module.vpc.vpc_id
-  subnet_ids              = module.vpc.subnet_ids
   instance_type           = "t3.small"
   security_group_id       = module.vpc.security_group_id
   bucket_name             = join("-", [module.beanstalk.ebs_app_name, "bucket"])
-  application_version     = "v1.79.5"
+  application_version     = "v1.78"
   instance_private_ips    = module.beanstalk.instance_private_ips
   cname_prefix            = module.beanstalk.ebs_app_name
   ebs_environment_url     = module.beanstalk.ebs_environment_url
@@ -89,4 +90,6 @@ module "beanstalk" {
   subnet_availability_zones = module.vpc.subnet_availability_zones
   zone_id                 = module.route53_zone.zone_id
   zone_name               = module.route53_zone.zone_name
+  private_subnet_ids      = module.vpc.private_subnet_ids
+  public_subnet_ids       = module.vpc.public_subnet_ids
 }

@@ -12,6 +12,6 @@ resource "aws_default_route_table" "internal_ebslab_default" {
 
 resource "aws_route_table_association" "default" {
   count          = var.public_sn_count
-  subnet_id      = aws_subnet.public_ebslab_subnet[count.index].id
+  subnet_id      = aws_subnet.ebslab_subnets[count.index].id
   route_table_id = aws_default_route_table.internal_ebslab_default.id
 }

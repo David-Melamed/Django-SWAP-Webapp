@@ -17,3 +17,11 @@ variable vpc_security_group_id {
 variable subnet_ids {
   type = list(any)
 }
+
+variable private_subnet_ids {
+  type = list(any)
+}
+
+variable public_subnet_ids {
+  type = list(any)
+}

@@ -14,7 +14,7 @@
     setting {
         namespace = "aws:ec2:vpc"
         name      = "Subnets"
-        value     = join(",", var.subnet_ids)
+        value     = join(",", var.public_subnet_ids)
     }
 
     setting {
