@@ -32,7 +32,7 @@ module "rds" {
   username                = "root"
   password                = "password"
   db_name                 = "my_application"
-  skip_final_snapshot     = true
+  skip_final_snapshot     = false
   subnet_name             = module.vpc.sg_name
   subnet_ids              = module.vpc.subnet_ids
   vpc_security_group_id   = module.vpc.security_group_id

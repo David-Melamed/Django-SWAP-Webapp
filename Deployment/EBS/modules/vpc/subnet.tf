@@ -13,6 +13,16 @@ variable "subnets" {
     },
     {
       cidr_block = "10.0.2.0/24"
+      public     = true
+      tags       = { Name = "Public-Subnet" }
+    },
+    {
+      cidr_block = "10.0.3.0/24"
+      public     = false
+      tags       = { Name = "Private-Subnet" }
+    },
+    {
+      cidr_block = "10.0.4.0/24"
       public     = false
       tags       = { Name = "Private-Subnet" }
     }
