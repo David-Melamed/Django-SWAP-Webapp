@@ -82,7 +82,7 @@ module "beanstalk" {
   instance_type           = "t3.small"
   security_group_id       = module.vpc.security_group_id
   bucket_name             = join("-", [module.beanstalk.ebs_app_name, "bucket"])
-  application_version     = "v1.91"
+  application_version     = "v1.92"
   instance_private_ips    = module.beanstalk.instance_private_ips
   cname_prefix            = module.beanstalk.ebs_app_name
   ebs_environment_url     = module.beanstalk.ebs_environment_url
