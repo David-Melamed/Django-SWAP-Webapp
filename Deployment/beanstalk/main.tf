@@ -1,35 +1,45 @@
+locals {
+    app_name = "swapapp"
+    env         = "dev"
+    application_version = "1.943"
+    db_name     = "my_application"
+    db_username = "root"
+    db_password = "password"
+    rds_instance_class = "db.t3.micro"
+    zone_name   = "swapapp.net"
+}
 
 module "vpc" {
   source                  = "./modules/vpc"
-  tags                    = "ebs-lab"
-  instance_tenancy        = "default"
-  vpc_cidr                = "10.0.0.0/16"
-  public_sn_count         = 2
-  public_cidrs            = ["10.0.1.0/24", "10.0.2.0/24"]
-  rt_route_cidr_block     = "0.0.0.0/0"
-  sg_name                 = "swapapp-sg"
-  enable_dns_hostnames    = true
-  map_public_ip_on_launch = false
+  tags                    = var.tags
+  instance_tenancy        = var.instance_tenancy
+  vpc_cidr                = var.vpc_cidr
+  public_sn_count         = var.public_sn_count
+  public_cidrs            = var.public_cidrs
+  rt_route_cidr_block     = var.rt_route_cidr_block
+  sg_name                 = "${local.app_name}-${local.env}-sg"
+  enable_dns_hostnames    = var.enable_dns_hostnames
+  map_public_ip_on_launch = var.map_public_ip_on_launch
 }
 
 module "iam" {
   source                  = "./modules/iam"
-  role_name               = "swapapp-role"
   assume_role_policy_file = "./modules/iam/json/iam_role_policy.json"
   assume_policy_file      = "./modules/iam/json/iam_policy.json"
   assume_ebs_ec2_file     = "./modules/iam/json/aws-elasticbeamstalk-ec2-role.json"
+  role_name               = "${local.app_name}-${local.env}-role"
 }
 
 module "rds" {
   source                = "./modules/rds"
-  allocated_storage     = 10
-  engine                = "mysql"
-  engine_version        = 5.7
-  instance_class        = "db.t3.micro"
-  username              = "root"
-  password              = "password"
-  db_name               = "my_application"
-  skip_final_snapshot   = true
+  allocated_storage     = var.allocated_storage
+  engine                = var.engine
+  engine_version        = var.engine_version
+  instance_class        = local.rds_instance_class
+  username              = local.db_username
+  password              = local.db_password
+  db_name               = local.db_name
+  skip_final_snapshot   = var.skip_final_snapshot
   subnet_name           = module.vpc.sg_name
   subnet_ids            = module.vpc.subnet_ids
   vpc_security_group_id = module.vpc.security_group_id
@@ -41,13 +51,13 @@ module "rds" {
 
 module "route53_zone" {
   source    = "./modules/route53/zone"
-  zone_name = "swapapp.net"
+  zone_name = local.zone_name
   vpc_id    = module.vpc.vpc_id
 }
 
 module "route53_rds_record" {
   source          = "./modules/route53/rds_record"
-  rds_record_name = join("-", ["rds", "dev"])
+  rds_record_name = "rds-${local.env}"
   zone_name       = module.route53_zone.zone_name
   rds_address     = module.rds.db_endpoint
   zone_id         = module.route53_zone.zone_id
@@ -68,15 +78,15 @@ module "acm" {
 
 module "beanstalk" {
   source                    = "./modules/beanstalk"
-  ebs_app_name              = "swapapp-web"
-  ebs_app_description       = "Python Web App Application using Django Framework"
-  solution_stack_name       = "64bit Amazon Linux 2023 v4.3.2 running Docker"
-  env                       = "dev"
-  service_role_name         = "aws-elasticbeanstalk-ec2-role"
-  instance_type             = "t3.small"
-  bucket_name               = join("-", [module.beanstalk.ebs_app_name, "bucket"])
-  application_version       = "v1.941"
-  ssh_public_key_local_path = "$HOME/.ssh/id_rsa.pub"
+  ebs_app_name              = "${local.app_name}-${local.env}"
+  ebs_app_description       = var.ebs_app_description
+  solution_stack_name       = var.solution_stack_name
+  env                       = local.env
+  service_role_name         = var.service_role_name
+  instance_type             = var.instance_type
+  bucket_name               = "${local.app_name}-${local.env}-bucket"
+  application_version       = local.application_version
+  ssh_public_key_local_path = var.ssh_public_key_local_path
   service_role_arn          = module.iam.role_arn
   vpc_id                    = module.vpc.vpc_id
   ssl_certificate_arn       = module.acm.ssl_certificate_arn
