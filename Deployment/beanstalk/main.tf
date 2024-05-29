@@ -79,7 +79,6 @@ module "beanstalk" {
   service_role_arn          = module.iam.role_arn
   vpc_id                    = module.vpc.vpc_id
   ssl_certificate_arn       = module.acm.ssl_certificate_arn
-  subnet_availability_zones = module.vpc.subnet_availability_zones
   zone_id                   = module.route53_zone.zone_id
   zone_name                 = module.route53_zone.zone_name
   private_subnet_ids        = module.vpc.private_subnet_ids
