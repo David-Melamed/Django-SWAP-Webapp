@@ -43,7 +43,6 @@ module "route53_zone" {
   source                  = "./modules/route53/zone"
   zone_name               = "swapapp.net"
   vpc_id                  = module.vpc.vpc_id
-  zone_id                 = module.route53_zone.zone_id
 }
 
 module "route53_rds_record" {
