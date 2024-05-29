@@ -5,6 +5,10 @@ locals {
     db_name     = "my_application"
     db_username = "root"
     db_password = "password"
+    db_host     = "rds-${local.env}.${local.zone_name}"
+    db_port     = 3306
+    app_image   = "public.ecr.aws/a9k6f9j6/django_swap"
+    app_tag     = "091424-290524"
     rds_instance_class = "db.t3.micro"
     zone_name   = "swapapp.net"
 }
@@ -95,5 +99,11 @@ module "beanstalk" {
   private_subnet_ids        = module.vpc.private_subnet_ids
   public_subnet_ids         = module.vpc.public_subnet_ids
   security_group_id         = module.vpc.security_group_id
-
+  db_name                   = local.db_name
+  db_username               = local.db_username
+  db_password               = local.db_password
+  db_host                   = local.db_host
+  db_port                   = local.db_port
+  app_image                 = local.app_image
+  app_tag                   = local.app_tag
 }

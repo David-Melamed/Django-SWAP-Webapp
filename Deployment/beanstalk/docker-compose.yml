@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   web:
-    image: public.ecr.aws/a9k6f9j6/django_swap:091424-290524
+    image: "${APP_IMAGE}:${TAG}"
     container_name: web
     environment:
       DJANGO_SETTINGS_MODULE: django_main.settings
@@ -11,7 +11,7 @@ services:
     volumes:
       - "/var/app/current:/etc/django-static"
     healthcheck:
-      test: ["CMD", "sh", "-c", "nc -z ${DB_HOST} 3306"]
+      test: ["CMD", "sh", "-c", "nc -z ${DB_HOST} ${DB_PORT}"]
       interval: 15s
       timeout: 90s
       retries: 5
