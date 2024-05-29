@@ -8,10 +8,7 @@ module "vpc" {
   public_cidrs            = ["10.0.1.0/24", "10.0.2.0/24"]
   map_public_ip_on_launch = false
   rt_route_cidr_block     = "0.0.0.0/0"
-  vpc_id                  = module.vpc.vpc_id
-  subnet_ids              = module.vpc.subnet_ids
   sg_name                 = "swapapp-sg"
-  security_group_id       = module.vpc.security_group_id
   enable_dns_hostnames    = true
 }
 
