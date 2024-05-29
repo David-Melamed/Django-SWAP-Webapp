@@ -75,7 +75,8 @@ module "beanstalk" {
   service_role_name         = "aws-elasticbeanstalk-ec2-role"
   instance_type             = "t3.small"
   bucket_name               = join("-", [module.beanstalk.ebs_app_name, "bucket"])
-  application_version       = "v1.94"
+  application_version       = "v1.941"
+  ssh_public_key_local_path = "$HOME/.ssh/id_rsa.pub"
   service_role_arn          = module.iam.role_arn
   vpc_id                    = module.vpc.vpc_id
   ssl_certificate_arn       = module.acm.ssl_certificate_arn
