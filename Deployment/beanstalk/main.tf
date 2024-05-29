@@ -79,9 +79,6 @@ module "beanstalk" {
   security_group_id       = module.vpc.security_group_id
   bucket_name             = join("-", [module.beanstalk.ebs_app_name, "bucket"])
   application_version     = "v1.94"
-  instance_private_ips    = module.beanstalk.instance_private_ips
-  cname_prefix            = module.beanstalk.ebs_app_name
-  ebs_environment_url     = module.beanstalk.ebs_environment_url
   ssl_certificate_arn     = module.acm.ssl_certificate_arn
   subnet_availability_zones = module.vpc.subnet_availability_zones
   zone_id                 = module.route53_zone.zone_id

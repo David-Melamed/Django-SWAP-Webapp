@@ -3,7 +3,6 @@
     application = aws_elastic_beanstalk_application.ebslab_app.name
     solution_stack_name = var.solution_stack_name
     version_label = "${aws_elastic_beanstalk_application_version.app_version.name}"
-    cname_prefix  = var.cname_prefix
     
     setting {
         namespace = "aws:ec2:vpc"

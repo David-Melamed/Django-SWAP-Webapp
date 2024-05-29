@@ -8,12 +8,6 @@ variable "instance_type" {}
 variable "bucket_name" {}
 variable "security_group_id" {}
 variable "application_version" {}
-variable "cname_prefix" {}
-variable instance_private_ips {
-  type = list(any)
-}
-
-variable "ebs_environment_url" {}
 variable "ssl_certificate_arn" {}
 variable "solution_stack_name" {}
 variable "subnet_availability_zones" {}
