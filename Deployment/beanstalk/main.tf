@@ -1,16 +1,13 @@
 locals {
-    app_name = "swapapp"
-    env         = "dev"
-    application_version = "1.943"
-    db_name     = "my_application"
-    db_username = "root"
-    db_password = "password"
-    db_host     = "rds-${local.env}.${local.zone_name}"
-    db_port     = 3306
-    app_image   = "public.ecr.aws/a9k6f9j6/django_swap"
-    app_tag     = "091424-290524"
-    rds_instance_class = "db.t3.micro"
-    zone_name   = "swapapp.net"
+  app_name = "swapapp"
+  env         = "dev"
+  zone_name   = "swapapp.net"
+  app_version = "1.99.8"
+  rds_instance_class = "db.t3.micro"
+  app_image   = "public.ecr.aws/a9k6f9j6/django_swap"
+  app_tag     = "091022-030624"
+  db_host     = "rds-dev.swapapp.net"
+  db_port     = "3306"
 }
 
 module "vpc" {
@@ -26,12 +23,17 @@ module "vpc" {
   map_public_ip_on_launch = var.map_public_ip_on_launch
 }
 
+module "secrets" {
+  source = "./modules/secrets"
+}
+
 module "iam" {
   source                  = "./modules/iam"
   assume_role_policy_file = "./modules/iam/json/iam_role_policy.json"
   assume_policy_file      = "./modules/iam/json/iam_policy.json"
   assume_ebs_ec2_file     = "./modules/iam/json/aws-elasticbeamstalk-ec2-role.json"
   role_name               = "${local.app_name}-${local.env}-role"
+#   secrets_policy_arn      = module.secrets.secret_arn
 }
 
 module "rds" {
@@ -40,9 +42,9 @@ module "rds" {
   engine                = var.engine
   engine_version        = var.engine_version
   instance_class        = local.rds_instance_class
-  username              = local.db_username
-  password              = local.db_password
-  db_name               = local.db_name
+  username              = module.secrets.db_username
+  password              = module.secrets.db_password
+  db_name               = module.secrets.db_name
   skip_final_snapshot   = var.skip_final_snapshot
   subnet_name           = module.vpc.sg_name
   subnet_ids            = module.vpc.subnet_ids
@@ -82,14 +84,14 @@ module "acm" {
 
 module "beanstalk" {
   source                    = "./modules/beanstalk"
-  ebs_app_name              = "${local.app_name}-${local.env}"
+  ebs_app_name              = "${local.app_name}"
   ebs_app_description       = var.ebs_app_description
   solution_stack_name       = var.solution_stack_name
   env                       = local.env
   service_role_name         = var.service_role_name
   instance_type             = var.instance_type
   bucket_name               = "${local.app_name}-${local.env}-bucket"
-  application_version       = local.application_version
+  application_version       = local.app_version
   ssh_public_key_local_path = var.ssh_public_key_local_path
   service_role_arn          = module.iam.role_arn
   vpc_id                    = module.vpc.vpc_id
@@ -99,11 +101,12 @@ module "beanstalk" {
   private_subnet_ids        = module.vpc.private_subnet_ids
   public_subnet_ids         = module.vpc.public_subnet_ids
   security_group_id         = module.vpc.security_group_id
-  db_name                   = local.db_name
-  db_username               = local.db_username
-  db_password               = local.db_password
-  db_host                   = local.db_host
-  db_port                   = local.db_port
   app_image                 = local.app_image
   app_tag                   = local.app_tag
+  # app_secret_id             = module.secrets.app_secret_id
+  db_host                   = local.db_host
+  db_port                   = local.db_port
+  db_name                   = module.secrets.db_name
+  db_user                   = module.secrets.db_username
+  db_password               = module.secrets.db_password
 }
