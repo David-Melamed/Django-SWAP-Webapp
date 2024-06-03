@@ -57,6 +57,23 @@
     program = ["${path.module}/encrypt.sh", aws_kms_key.kms_key.key_id, var.db_password, data.aws_region.current.name]
   }
 
+resource "null_resource" "remove_credentials_file_when_apply" {
+  provisioner "local-exec" {
+    when    = create
+    command = "rm -f ${path.module}/credentials.json"
+  }
+}
+
+resource "local_file" "credentials" {
+  content = jsonencode({
+    db_name     = var.db_name,
+    db_username = var.db_username,
+    db_password = var.db_password
+  })
+  filename = "${path.module}/credentials.json"
+}
+
+
 locals {
   credentials = jsondecode(file("${path.module}/credentials.json"))
 }
@@ -75,3 +92,10 @@ locals {
       payload = length(local.credentials.db_password) > 0 ? data.external.encrypt_db_password[0].result["encrypted_text"] : ""
     }
   }
+
+  resource "null_resource" "remove_credentials_file_when_destroy" {
+  provisioner "local-exec" {
+    when    = destroy
+    command = "rm -f ${path.module}/credentials.json"
+  }
+}
