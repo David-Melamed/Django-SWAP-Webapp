@@ -47,3 +47,31 @@ resource "aws_iam_role_policy_attachment" "beanstalk_multicontainer_docker" {
   role       = aws_iam_role.beanstalk_ec2_role.name
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker"
 }
+
+
+resource "aws_iam_policy" "kms_usage_policy" {
+  name        = "KMSUsagePolicy"
+  description = "Allow use of the KMS key"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect    = "Allow",
+        Action    = [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey"
+        ],
+        Resource  = var.kms_key_arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "kms_policy_attachment" {
+  role       = aws_iam_role.beanstalk_ec2_role.name
+  policy_arn = aws_iam_policy.kms_usage_policy.arn
+}

@@ -42,30 +42,3 @@ data "aws_kms_secrets" "example" {
     payload = "AQICAHggptUvWUY4BaFJK7wVVZ1yup88HuwekCWBPuzwuOcYfQH8aCCCJj1UAY3PzntC1R+uAAAAZjBkBgkqhkiG9w0BBwagVzBVAgEAMFAGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM7aeX372249UEj/oKAgEQgCPxtKzNgiHyoTNioSK9pCgsVcZ7IWD2bJVL3YTNTLzelLhA9Q=="
   }
 }
-
-resource "aws_iam_policy" "kms_usage_policy" {
-  name        = "KMSUsagePolicy"
-  description = "Allow use of the KMS key"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect    = "Allow",
-        Action    = [
-          "kms:Encrypt",
-          "kms:Decrypt",
-          "kms:ReEncrypt*",
-          "kms:GenerateDataKey*",
-          "kms:DescribeKey"
-        ],
-        Resource  = aws_kms_key.kms_key.arn
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "kms_policy_attachment" {
-  role       = "aws-elasticbeanstalk-ec2-role"
-  policy_arn = aws_iam_policy.kms_usage_policy.arn
-}

@@ -32,6 +32,7 @@ module "iam" {
   assume_role_policy_file = "./modules/iam/json/iam_role_policy.json"
   assume_policy_file      = "./modules/iam/json/iam_policy.json"
   assume_ebs_ec2_file     = "./modules/iam/json/aws-elasticbeamstalk-ec2-role.json"
+  kms_key_arn             = module.secrets.kms_key_arn
   role_name               = "${local.app_name}-${local.env}-role"
 }
 
