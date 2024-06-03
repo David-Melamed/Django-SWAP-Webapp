@@ -102,7 +102,6 @@ module "beanstalk" {
   security_group_id         = module.vpc.security_group_id
   app_image                 = local.app_image
   app_tag                   = local.app_tag
-  # app_secret_id             = module.secrets.app_secret_id
   db_host                   = local.db_host
   db_port                   = local.db_port
   db_name                   = module.secrets.db_name
