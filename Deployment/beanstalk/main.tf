@@ -2,7 +2,7 @@ locals {
   app_name = "swapapp"
   env         = "dev"
   zone_name   = "swapapp.net"
-  app_version = "1.99.8"
+  app_version = "1.99.9"
   rds_instance_class = "db.t3.micro"
   app_image   = "public.ecr.aws/a9k6f9j6/django_swap"
   app_tag     = "091022-030624"

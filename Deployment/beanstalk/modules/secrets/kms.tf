@@ -2,7 +2,7 @@ data "aws_caller_identity" "current" {}
 
 resource "aws_kms_key" "kms_key" {
   description             = "KMS key for swapp application encryption"
-#   deletion_window_in_days = 10  # Set the number of days before deletion
+  deletion_window_in_days = 7  # Set the number of days before deletion
 
   policy = <<POLICY
 {
@@ -23,6 +23,7 @@ POLICY
 }
 
 
+
 resource "aws_kms_alias" "kms_alias" {
   name          = "alias/swapapp-dev"
   target_key_id = aws_kms_key.kms_key.key_id
@@ -31,7 +32,7 @@ resource "aws_kms_alias" "kms_alias" {
 data "aws_kms_secrets" "example" {
   secret {
     name    = "db_name"
-    payload = "AQICAHggptUvWUY4BaFJK7wVVZ1yup88HuwekCWBPuzwuOcYfQHT1AriMTo77Uw5poqxb0nhAAAAbDBqBgkqhkiG9w0BBwagXTBbAgEAMFYGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM6TMk2KTHtvSNSMOOAgEQgCmth27P33ADaJ+aVXBNXH5JtAQnKYDg5Tei3k+GyeoKd/xBmRT2P7DWGw=="
+    payload = "AQICAHggptUvWUY4BaFJK7wVVZ1yup88HuwekCWBPuzwuOcYfQGPI10JTbad0e6GAmU6/ta0AAAAaTBnBgkqhkiG9w0BBwagWjBYAgEAMFMGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMz9cu8kYwzwLZQjO7AgEQgCaBIsa/AVKVGuQ/JUlNLxN0sLwCrp8hHwvtfrpoZanWvXdNrl0Q+Q=="
   }
   secret {
     name    = "db_username"
@@ -39,6 +40,6 @@ data "aws_kms_secrets" "example" {
   }
   secret {
     name    = "db_password"
-    payload = "AQICAHggptUvWUY4BaFJK7wVVZ1yup88HuwekCWBPuzwuOcYfQH8aCCCJj1UAY3PzntC1R+uAAAAZjBkBgkqhkiG9w0BBwagVzBVAgEAMFAGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM7aeX372249UEj/oKAgEQgCPxtKzNgiHyoTNioSK9pCgsVcZ7IWD2bJVL3YTNTLzelLhA9Q=="
+    payload = "AQICAHggptUvWUY4BaFJK7wVVZ1yup88HuwekCWBPuzwuOcYfQH9UVNq55xQhCaLaoXFA4gIAAAAaTBnBgkqhkiG9w0BBwagWjBYAgEAMFMGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMHhxVs4uni0CyNxRkAgEQgCZQDw1dR7ZiHg/6QRpynaoncwvRjIvhAXHR9oWF4kNxMNTuNiX+2Q=="
   }
 }
