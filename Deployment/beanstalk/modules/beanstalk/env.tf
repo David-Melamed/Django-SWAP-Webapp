@@ -82,13 +82,54 @@
       value     = "ELBSecurityPolicy-2016-08"
     }
 
+    setting {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "APP_IMAGE"
+      value     = var.app_image
+    }
+
+    setting {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "TAG"
+      value     = var.app_tag
+    }
+
+    setting {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "DB_HOST"
+      value     = var.db_host
+    }
+
+    setting {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "DB_PORT"
+      value     = var.db_port
+    }
+
+    setting {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "DB_NAME"
+      value     = var.db_name
+    }
+
+    setting {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "DB_USER"
+      value     = var.db_user
+    }
+
+    setting {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "DB_PASSWORD"
+      value     = var.db_password
+    }
+
     tags = {
           "environment-name" = format("%s-%s", var.ebs_app_name, var.env)
     }
     
     depends_on = [ 
       var.ssl_certificate_arn
-      # aws_lb.front_end
      ]
 }
 
