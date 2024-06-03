@@ -33,7 +33,6 @@ module "iam" {
   assume_policy_file      = "./modules/iam/json/iam_policy.json"
   assume_ebs_ec2_file     = "./modules/iam/json/aws-elasticbeamstalk-ec2-role.json"
   role_name               = "${local.app_name}-${local.env}-role"
-#   secrets_policy_arn      = module.secrets.secret_arn
 }
 
 module "rds" {
