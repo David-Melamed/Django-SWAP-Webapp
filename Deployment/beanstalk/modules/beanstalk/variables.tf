@@ -8,19 +8,9 @@ variable "instance_type" {}
 variable "bucket_name" {}
 variable "security_group_id" {}
 variable "application_version" {}
-variable "cname_prefix" {}
-variable instance_private_ips {
-  type = list(any)
-}
-
-variable "ebs_environment_url" {}
 variable "ssl_certificate_arn" {}
 variable "solution_stack_name" {}
-variable "subnet_availability_zones" {}
-variable "path_to_ssh_public_key" {
-  description = "The path to the SSH public key"
-  default     = "~/.ssh/id_rsa.pub"
-}
+variable "ssh_public_key_local_path" {}
 variable "zone_id" {}
 variable "zone_name" {}
 
@@ -31,3 +21,11 @@ variable private_subnet_ids {
 variable public_subnet_ids {
   type = list(any)
 }
+variable "app_image" {}
+variable "app_tag" {}
+# variable "app_secret_id" {}
+variable "db_host" {}
+variable "db_port" {}
+variable "db_name" {}
+variable "db_user" {}
+variable "db_password" {}

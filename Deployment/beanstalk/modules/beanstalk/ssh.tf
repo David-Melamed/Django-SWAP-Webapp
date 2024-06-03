@@ -12,7 +12,7 @@ resource "null_resource" "copy_ssh_key" {
 
   provisioner "local-exec" {
     command = <<EOT
-      cp $HOME/.ssh/id_rsa.pub ${path.root}/.platform/ssh/
+      cp ${var.ssh_public_key_local_path} ${path.root}/.platform/ssh/
     EOT
   }
 }
