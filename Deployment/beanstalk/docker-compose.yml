@@ -2,10 +2,14 @@ version: "3.9"
 services:
   web:
     image: "${APP_IMAGE}:${TAG}"
-    container_name: web
     environment:
       DJANGO_SETTINGS_MODULE: django_main.settings
-      DB_HOST: rds-dev.swapapp.net
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_HOST: "${DB_HOST}"
+      DB_NAME: "${DB_NAME}"
+      DB_PORT: "${DB_PORT}"
+    container_name: web
     ports:
       - "9090:9090"
     volumes:
