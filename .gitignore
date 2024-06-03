@@ -1,8 +1,10 @@
 SWAP/django_swap/accounts/__pycache__/
 SWAP/django_swap/accounts/migrations/
+SWAP/django_swap/my_app/migrations/*
+SWAP/django_swap/my_app/__pycache__/*
 Deployment/beanstalk/.terraform/
 Deployment/beanstalk/.terraform.lock.hcl
-Deployment/beanstalk/terraform.tfstate
-Deployment/beanstalk/terraform.tfstate.backup
+Deployment/beanstalk/terraform.tfstate*
 Deployment/.platform/ssh/id_rsa.pub
 Deployment/beanstalk/*.zip
+Deployment/beanstalk/secrets.json
