@@ -3,7 +3,6 @@ data "aws_caller_identity" "current" {}
 resource "aws_kms_key" "kms_key" {
   description             = "KMS key for swapp application encryption"
   deletion_window_in_days = 7  # Set the number of days before deletion
-
   policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -22,14 +21,13 @@ resource "aws_kms_key" "kms_key" {
 POLICY
 }
 
-
-
 resource "aws_kms_alias" "kms_alias" {
-  name          = "alias/swapapp-dev"
+  name          = "alias/${var.kms_alias}"
   target_key_id = aws_kms_key.kms_key.key_id
 }
 
-data "aws_kms_secrets" "example" {
+
+data "aws_kms_secrets" "db_dev" {
   secret {
     name    = "db_name"
     payload = "AQICAHggptUvWUY4BaFJK7wVVZ1yup88HuwekCWBPuzwuOcYfQGPI10JTbad0e6GAmU6/ta0AAAAaTBnBgkqhkiG9w0BBwagWjBYAgEAMFMGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMz9cu8kYwzwLZQjO7AgEQgCaBIsa/AVKVGuQ/JUlNLxN0sLwCrp8hHwvtfrpoZanWvXdNrl0Q+Q=="

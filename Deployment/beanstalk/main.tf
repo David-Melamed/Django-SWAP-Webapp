@@ -25,6 +25,7 @@ module "vpc" {
 
 module "secrets" {
   source = "./modules/secrets"
+  kms_alias = "${local.app_name}-${local.env}-alias"
 }
 
 module "iam" {
