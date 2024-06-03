@@ -71,11 +71,28 @@ resource "local_file" "credentials" {
     db_password = var.db_password
   })
   filename = "${path.module}/credentials.json"
+  
+  lifecycle {
+      create_before_destroy = true
+    }
+
+  provisioner "local-exec" {
+    command = <<EOT
+      if [ ! -f "${path.module}/credentials.json" ]; then
+        echo '${jsonencode({
+          db_name     = var.db_name,
+          db_username = var.db_username,
+          db_password = var.db_password
+        })}' > "${path.module}/credentials.json"
+      fi
+    EOT
+    when    = create
+  }
 }
 
 
 locals {
-  credentials = jsondecode(file("${path.module}/credentials.json"))
+  credentials = jsondecode(local_file.credentials.content)
 }
 
   data "aws_kms_secrets" "db_dev" {
