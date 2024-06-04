@@ -25,7 +25,7 @@ module "vpc" {
 
 module "secrets" {
   source = "./modules/secrets"
-  kms_alias = "${local.app_name}-${local.env}-kms-alias"
+  kms_alias = "${local.app_name}-${local.env}-kms-alias-new"
   db_name      = var.db_name
   db_username  = var.db_username
   db_password  = var.db_password

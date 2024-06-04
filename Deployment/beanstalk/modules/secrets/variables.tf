@@ -1,4 +1,5 @@
 variable "kms_alias" {}
+
 variable "db_name" {
   description = "Database name"
   type        = string
@@ -18,4 +19,13 @@ variable "db_password" {
   type        = string
   sensitive   = true
   default     = ""
+}
+
+variable "credentials" {
+  type = map(string)
+  default = {
+    db_name     = ""
+    db_username = ""
+    db_password = ""
+  }
 }
