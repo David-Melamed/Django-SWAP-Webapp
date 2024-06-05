@@ -114,3 +114,10 @@ module "beanstalk" {
   db_user                   = module.secrets.db_username
   db_password               = module.secrets.db_password
 }
+
+module "ec2" {
+  source = "./modules/ec2"
+  ebs_all_settings = module.beanstalk.ebs_all_settings
+  env_name = "${local.app_name}-${local.env}"
+  app_name = module.beanstalk.ebs_app_name
+}
