@@ -25,3 +25,5 @@ variable private_subnet_ids {
 variable public_subnet_ids {
   type = list(any)
 }
+
+variable identifier {}

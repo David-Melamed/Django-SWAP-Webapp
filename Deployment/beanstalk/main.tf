@@ -49,6 +49,7 @@ module "rds" {
   username              = module.secrets.db_username
   password              = module.secrets.db_password
   db_name               = module.secrets.db_name
+  identifier            = "${local.app_name}-${local.env}"
   skip_final_snapshot   = var.skip_final_snapshot
   subnet_name           = module.vpc.sg_name
   subnet_ids            = module.vpc.subnet_ids

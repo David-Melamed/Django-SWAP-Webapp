@@ -29,9 +29,9 @@ resource "aws_kms_alias" "kms_alias" {
 
 resource "local_file" "credentials" {
   content = jsonencode({
-    db_name     = var.db_name,
-    db_username = var.db_username,
-    db_password = var.db_password
+    db_name     = var.db_name     != "" ? var.db_name     : lookup(local.credentials, "db_name", "")
+    db_username = var.db_username != "" ? var.db_username : lookup(local.credentials, "db_username", "")
+    db_password = var.db_password != "" ? var.db_password : lookup(local.credentials, "db_password", "")
   })
   filename = "${path.module}/credentials.json"
   
@@ -56,7 +56,7 @@ resource "local_file" "credentials" {
           json_content+="\"$key\": \"$value\","
         done
 
-        if [ "$empty_values" = false ]; then
+        if [ "$empty_values" = "false" ]; then
           json_content=$(echo "$json_content" | sed 's/,$//')
           json_content+="}"
           echo "$json_content" > "${path.module}/credentials.json"
@@ -68,10 +68,10 @@ resource "local_file" "credentials" {
 }
 
 locals {
-  credentials = try(jsondecode(file("${path.module}/credentials.json")),"")
-  db_name     = var.db_name     != "" ? var.db_name     : local.credentials.db_name
-  db_username = var.db_username != "" ? var.db_username : local.credentials.db_username
-  db_password = var.db_password != "" ? var.db_password : local.credentials.db_password
+  credentials = try(jsondecode(file("${path.module}/credentials.json")), {})
+  db_name     = var.db_name     != "" ? var.db_name     : lookup(local.credentials, "db_name", "")
+  db_username = var.db_username != "" ? var.db_username : lookup(local.credentials, "db_username", "")
+  db_password = var.db_password != "" ? var.db_password : lookup(local.credentials, "db_password", "")
 }
 
 data "external" "encrypt_db_name" {
@@ -105,7 +105,6 @@ data "aws_kms_secrets" "db_dev" {
     payload = try(data.external.encrypt_db_password[0].result["encrypted_text"], "")
   }
 }
-
 
 resource "null_resource" "remove_credentials_file_when_destroy" {
   provisioner "local-exec" {
