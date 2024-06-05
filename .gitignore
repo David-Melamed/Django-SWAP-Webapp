@@ -9,3 +9,4 @@ Deployment/beanstalk/terraform.tfstate*
 Deployment/.platform/ssh/id_rsa.pub
 Deployment/beanstalk/*.zip
 Deployment/beanstalk/secrets.json
+Deployment/beanstalk/modules/secrets/credentials.json

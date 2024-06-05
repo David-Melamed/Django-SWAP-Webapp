@@ -3,7 +3,7 @@ locals {
   env         = "dev"
   zone_name   = "swapapp.net"
   app_version = "1.99.9"
-  rds_instance_class = "db.t3.micro"
+  rds_instance_class = "db.t3.small"
   app_image   = "public.ecr.aws/a9k6f9j6/django_swap"
   app_tag     = "091022-030624"
   db_host     = "rds-dev.swapapp.net"
@@ -25,7 +25,10 @@ module "vpc" {
 
 module "secrets" {
   source = "./modules/secrets"
-  kms_alias = "${local.app_name}-${local.env}-alias"
+  kms_alias = "${local.app_name}-${local.env}-kms-alias-new"
+  db_name      = var.db_name
+  db_username  = var.db_username
+  db_password  = var.db_password
 }
 
 module "iam" {
@@ -46,6 +49,7 @@ module "rds" {
   username              = module.secrets.db_username
   password              = module.secrets.db_password
   db_name               = module.secrets.db_name
+  identifier            = "${local.app_name}-${local.env}"
   skip_final_snapshot   = var.skip_final_snapshot
   subnet_name           = module.vpc.sg_name
   subnet_ids            = module.vpc.subnet_ids
