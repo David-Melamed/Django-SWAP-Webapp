@@ -2,10 +2,10 @@ locals {
   app_name = "swapapp"
   env         = "dev"
   zone_name   = "swapapp.net"
-  app_version = "1.99.9"
+  app_version = "2.2.5.3"
   rds_instance_class = "db.t3.small"
   app_image   = "public.ecr.aws/a9k6f9j6/django_swap"
-  app_tag     = "091022-030624"
+  app_tag     = "143545-050624"
   db_host     = "rds-dev.swapapp.net"
   db_port     = "3306"
 }
@@ -113,11 +113,4 @@ module "beanstalk" {
   db_name                   = module.secrets.db_name
   db_user                   = module.secrets.db_username
   db_password               = module.secrets.db_password
-}
-
-module "ec2" {
-  source = "./modules/ec2"
-  ebs_all_settings = module.beanstalk.ebs_all_settings
-  env_name = "${local.app_name}-${local.env}"
-  app_name = module.beanstalk.ebs_app_name
 }
