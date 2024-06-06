@@ -2,15 +2,17 @@
 - name: Secure SSH configuration
   hosts: all
   become: yes
+  vars:
+    devops_user: "{{ devops_user }}"
   tasks:
-    # - name: Disable root SSH login
-    #   lineinfile:
-    #     path: /etc/ssh/sshd_config
-    #     state: present
-    #     regexp: '^PermitRootLogin'
-    #     line: 'PermitRootLogin no'
-    #   notify:
-    #     - Restart SSH
+    - name: Disable root SSH login
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^PermitRootLogin'
+        line: 'PermitRootLogin no'
+      notify:
+        - Restart SSH
 
     - name: Allow only key-based SSH authentication
       lineinfile:
@@ -20,6 +22,13 @@
         line: 'PasswordAuthentication no'
       notify:
         - Restart SSH
+
+    - name: Allow devops_user to switch to root without a password
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: '{{ devops_user }} ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
 
   handlers:
     - name: Restart SSH
