@@ -3,14 +3,14 @@
   hosts: all
   become: yes
   tasks:
-    - name: Disable root SSH login
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        state: present
-        regexp: '^PermitRootLogin'
-        line: 'PermitRootLogin no'
-      notify:
-        - Restart SSH
+    # - name: Disable root SSH login
+    #   lineinfile:
+    #     path: /etc/ssh/sshd_config
+    #     state: present
+    #     regexp: '^PermitRootLogin'
+    #     line: 'PermitRootLogin no'
+    #   notify:
+    #     - Restart SSH
 
     - name: Allow only key-based SSH authentication
       lineinfile:
@@ -24,5 +24,5 @@
   handlers:
     - name: Restart SSH
       service:
-        name: ssh
+        name: sshd
         state: restarted
