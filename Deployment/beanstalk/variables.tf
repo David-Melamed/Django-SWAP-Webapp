@@ -103,15 +103,18 @@ variable "ssh_public_key_local_path" {
 variable "db_name" {
   description = "Database name"
   type        = string
+  # default     = "dbname1"
 }
 
 variable "db_username" {
   description = "Database username"
   type        = string
+  # default     = "dbusername1"
 }
 
 variable "db_password" {
   description = "Database password"
   type        = string
   sensitive   = true
+  # default     = "dbpassword1"
 }
