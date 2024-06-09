@@ -43,7 +43,7 @@
     setting {
       namespace = "aws:autoscaling:launchconfiguration"
       name      = "SecurityGroups"
-      value     = var.security_group_id[0]
+      value     = var.beanstalk_sg_id[0]
     }
 
     setting {
@@ -55,7 +55,7 @@
     setting {
       namespace = "aws:elbv2:loadbalancer"
       name      = "SecurityGroups"
-      value     = var.security_group_id[0]
+      value     = var.alb_sg_id[0]
     }
 
     setting {
