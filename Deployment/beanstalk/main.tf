@@ -24,7 +24,7 @@ module "vpc" {
 }
 
 module "sg" {
-  source = "./modules/security-groups"
+  source = "./modules/sgs"
   vpc_id = module.vpc.vpc_id
 }
 module "secrets" {
