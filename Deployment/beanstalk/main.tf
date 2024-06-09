@@ -23,10 +23,11 @@ module "vpc" {
   map_public_ip_on_launch = var.map_public_ip_on_launch
 }
 
-module "sg" {
+module "sgs" {
   source = "./modules/sgs"
   vpc_id = module.vpc.vpc_id
 }
+
 module "secrets" {
   source = "./modules/secrets"
   kms_alias = "${local.app_name}-${local.env}-kms-alias-new"
@@ -57,7 +58,7 @@ module "rds" {
   skip_final_snapshot   = var.skip_final_snapshot
   subnet_name           = module.vpc.sg_name
   subnet_ids            = module.vpc.subnet_ids
-  vpc_security_group_id = module.sg.beanstalk_sg_id
+  vpc_security_group_id = module.sgs.beanstalk_sg_id
   vpc_id                = module.vpc.vpc_id
   instance_private_ips  = module.beanstalk.instance_private_ips
   private_subnet_ids    = module.vpc.private_subnet_ids
@@ -109,7 +110,7 @@ module "beanstalk" {
   zone_name                 = module.route53_zone.zone_name
   private_subnet_ids        = module.vpc.private_subnet_ids
   public_subnet_ids         = module.vpc.public_subnet_ids
-  beanstalk_sg_id         = module.sg.beanstalk_sg_id
+  beanstalk_sg_id         = module.sgs.beanstalk_sg_id
   app_image                 = local.app_image
   app_tag                   = local.app_tag
   db_host                   = local.db_host
@@ -117,5 +118,5 @@ module "beanstalk" {
   db_name                   = module.secrets.db_name
   db_user                   = module.secrets.db_username
   db_password               = module.secrets.db_password
-  alb_sg_id                 = module.sg.alb_sg_id
+  alb_sg_id                 = module.sgs.alb_sg_id
 }

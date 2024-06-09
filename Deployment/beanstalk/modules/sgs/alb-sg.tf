@@ -2,7 +2,7 @@
 resource "aws_security_group" "alb_sg" {
   vpc_id      = var.vpc_id
   name        = "alb-sg"
-  description = "Security group for Elastic Beanstalk"
+  description = "Security group for Application Load Balancer"
 }
 
 resource "aws_security_group_rule" "alb_sg_rule_80" {
@@ -11,5 +11,5 @@ resource "aws_security_group_rule" "alb_sg_rule_80" {
   from_port         = 80
   to_port           = 80
   protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]  # Allow SSH from any IP address
+  cidr_blocks       = ["0.0.0.0/0"]
 }
