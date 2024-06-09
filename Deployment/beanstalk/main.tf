@@ -109,7 +109,7 @@ module "beanstalk" {
   zone_name                 = module.route53_zone.zone_name
   private_subnet_ids        = module.vpc.private_subnet_ids
   public_subnet_ids         = module.vpc.public_subnet_ids
-  security_group_id         = module.sg.beanstalk_sg_id
+  beanstalk_sg_id         = module.sg.beanstalk_sg_id
   app_image                 = local.app_image
   app_tag                   = local.app_tag
   db_host                   = local.db_host
@@ -117,4 +117,5 @@ module "beanstalk" {
   db_name                   = module.secrets.db_name
   db_user                   = module.secrets.db_username
   db_password               = module.secrets.db_password
+  alb_sg_id                 = module.sg.alb_sg_id
 }
