@@ -20,10 +20,6 @@ output "subnet_availability_zones" {
   value = aws_subnet.ebslab_subnets[*].availability_zone
 }
 
-output "security_group_id" {
-  value = [aws_security_group.ebslab_security_group.id]
-}
-
 output "sg_name" {
   value = aws_subnet.ebslab_subnets[0].tags["Name"]
 }
