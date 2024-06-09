@@ -16,7 +16,7 @@ services:
       - "/var/app/current:/etc/django-static"
     healthcheck:
       test: ["CMD", "sh", "-c", "nc -z ${DB_HOST} ${DB_PORT}"]
-      interval: 15s
+      interval: 120s
       timeout: 90s
       retries: 5
     logging:

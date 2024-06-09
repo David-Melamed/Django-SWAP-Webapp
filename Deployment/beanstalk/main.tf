@@ -2,17 +2,17 @@ locals {
   app_name = "swapapp"
   env         = "dev"
   zone_name   = "swapapp.net"
-  app_version = "1.99.9"
+  app_version = "2.2.5.6"
   rds_instance_class = "db.t3.small"
   app_image   = "public.ecr.aws/a9k6f9j6/django_swap"
-  app_tag     = "091022-030624"
+  app_tag     = "130843-080624"
   db_host     = "rds-dev.swapapp.net"
   db_port     = "3306"
 }
 
 module "vpc" {
   source                  = "./modules/vpc"
-  tags                    = var.tags
+  tags                    = "test1"
   instance_tenancy        = var.instance_tenancy
   vpc_cidr                = var.vpc_cidr
   public_sn_count         = var.public_sn_count
