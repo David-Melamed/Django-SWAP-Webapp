@@ -6,7 +6,7 @@ SWAP/django_swap/django_main/__pycache__/*
 Deployment/beanstalk/.terraform/
 Deployment/beanstalk/.terraform.lock.hcl
 Deployment/beanstalk/terraform.tfstate*
-Deployment/.platform/ssh/id_rsa.pub
+Deployment/beanstalk/.platform/ssh/id_rsa.pub
 Deployment/beanstalk/*.zip
 Deployment/beanstalk/secrets.json
 Deployment/beanstalk/modules/secrets/credentials.json
