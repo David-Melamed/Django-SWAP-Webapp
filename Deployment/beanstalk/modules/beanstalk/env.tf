@@ -123,6 +123,12 @@
       name      = "DB_PASSWORD"
       value     = var.db_password
     }
+    
+    setting {
+      namespace = "aws:autoscaling:asg"
+      name      = "Availability Zones"
+      value     = "Any"
+    }
 
     tags = {
           "environment-name" = format("%s-%s", var.ebs_app_name, var.env)
