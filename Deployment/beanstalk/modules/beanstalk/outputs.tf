@@ -38,3 +38,7 @@ output "application_version" {
 output "bucket_name" {
   value = var.bucket_name
 }
+
+output "environment_name" {
+  value = aws_elastic_beanstalk_environment.ebslab_env.name
+}
