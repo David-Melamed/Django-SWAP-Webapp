@@ -120,3 +120,8 @@ module "beanstalk" {
   db_password               = module.secrets.db_password
   alb_sg_id                 = module.sgs.alb_sg_id
 }
+
+module "cloudfront" {
+  source           = "./modules/cloudfront"
+  lb_dns           = module.beanstalk.lb_dns
+}
