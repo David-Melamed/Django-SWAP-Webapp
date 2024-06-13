@@ -5,3 +5,7 @@ output "ec2_public_ips" {
 output "beanstalk_env_name" {
     value = module.beanstalk.environment_name
 }
+
+output "cloudfront_distribution_id" {
+    value = module.cloudfront.cloudfront_distribution_id
+}
