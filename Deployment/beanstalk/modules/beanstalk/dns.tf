@@ -13,3 +13,7 @@ resource "aws_route53_record" "front_end" {
     evaluate_target_health = true
   }
 }
+
+output "lb_dns" {
+  value = data.aws_lb.front_end.dns_name
+}
